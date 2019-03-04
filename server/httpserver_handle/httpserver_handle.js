@@ -29,12 +29,6 @@ const Exp = require('express');
 /** @const @private Express app. */
 const App = new Exp();
 
-/** @const @private Http module. */
-const Http = require('http');
-
-/** @const @private Http server */
-const HttpServer = new Http.Server();
-
 
 /**
  * Send file to client function
@@ -42,7 +36,7 @@ const HttpServer = new Http.Server();
  * @param {Object} path Path to file.
  */
 function sendFile(res, path) {
-  Fs.readFile('../client' + path,
+  Fs.readFile(__dirname + '/../../client' + path,
       function(err, data) {
         if (err) {
           res.writeHead(500);
@@ -74,9 +68,8 @@ function serverHandler() {
  */
 exports.setUp = function(port = 3000) {
   serverHandler();
-  App.use(Exp.static('../client'));
 
-  HttpServer.listen(port, function() {
+  App.listen(port, function() {
     console.log('listening on *:' + port);
   });
 };
