@@ -16,34 +16,12 @@
  */
 
 /**
- * @fileoverview Main server file
- * @author Philip Dukshtau, Dmitriy Vikhlyaev
+ * @author Dmitriy Vikhlyaev
  */
-
-
-/** @const {!server} A server handle module. */
-const Server = require('./httpserver_handle/httpserver_handle');
-
-/** @const {routes} Routes */
-const noteRoutes = require('./app/routes/routes');
-
-module.exports = function(App, db) {
-  noteRoutes(App, db);
+module.exports = function(app, db) {
+    app.get('/projects', (req, res) => {
+            res.send('Hello');
+        }
+    );
 };
 
-/**
- * Main function of server side
- */
-function main() {
-  Server.setUp();
-  process.openStdin().addListener('data', function(d) {
-    if (d.toString() === 'stop\n') {
-      process.exit();
-    }
-  });
-
-}
-
-if (require.main === module) {
-  main();
-}

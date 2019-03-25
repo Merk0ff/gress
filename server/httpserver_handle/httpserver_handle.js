@@ -17,7 +17,7 @@
 
 /**
  * @fileoverview Http server handle
- * @author Philip Dukshtau
+ * @author Philip Dukshtau, Dmitri Vikhlyaev
  */
 
 /** @const @private A file system handle module. */
@@ -29,6 +29,14 @@ const Exp = require('express');
 /** @const @private Express app. */
 const App = new Exp();
 
+/** @const @private BodyParser bodyParser */
+const BodyParser = require('body-parser');
+
+/** @const @privat MongoClient */
+const MongoClient = require('mongodb').MongoClient;
+
+/** @const @privat Db database */
+const Db  = require('../config/db');
 
 /**
  * Send file to client function
@@ -69,7 +77,12 @@ function serverHandler() {
 exports.setUp = function(port = 3000) {
   serverHandler();
 
-  App.listen(port, function() {
-    console.log('listening on *:' + port);
+  App.use(BodyParser.urlencoded({ extended: true }));
+  MongoClient.connect(Db.url, (err, database) => {
+      if (err) return console.log(err);
+      require('../app/routes/routes')(App, {});
+      App.listen(port, function () {
+          console.log('listening on *:' + port);
+      });
   });
 };
