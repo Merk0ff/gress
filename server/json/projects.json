@@ -1,0 +1,16 @@
+{
+  "count": 2,
+  "projects":
+  [
+    {
+      "title": "title1",
+      "description": "description1",
+      "media": "path_to_media1"
+    },
+    {
+      "title": "title2",
+      "description": "description2",
+      "media": "path_to_media2"
+    }
+  ]
+}
