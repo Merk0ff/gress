@@ -33,9 +33,12 @@ exports.getProject = function (index = null, callback){
        }
    });
 };
-
+/**
+ * Add project to collection
+ * @param newProject
+ * @param callback
+ */
 exports.addProject = function (newProject, callback) {
-    newProject = {'title': 'test3', 'count':20};
     Service.addItemCollection('project', newProject, function (result) {
         callback(result);
     });
