@@ -32,9 +32,6 @@ const App = new Exp();
 /** @const @private BodyParser bodyParser */
 const BodyParser = require('body-parser');
 
-/** @const @privat MongoClient */
-const MongoClient = require('mongodb').MongoClient;
-
 /** @const @privat Db database */
 const Db  = require('../config/db');
 
@@ -77,12 +74,12 @@ function serverHandler() {
 exports.setUp = function(port = 3000) {
   serverHandler();
 
-  App.use(BodyParser.urlencoded({ extended: true }));
-  MongoClient.connect(Db.url, (err, database) => {
-      if (err) return console.log(err);
-      require('../app/routes/routes')(App, {});
+  // App.use(BodyParser.urlencoded({ extended: true }));
+  // MongoClient.connect(Db.url, (err, database) => {
+  //     if (err) return console.log(err);
+      require('../app/routes/routes')(App);
       App.listen(port, function () {
           console.log('listening on *:' + port);
       });
-  });
+  // });
 };

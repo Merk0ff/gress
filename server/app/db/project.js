@@ -17,23 +17,26 @@
 
 /**
  * @author Dmitriy Vikhlyaev
-*/
-const Project = require('../db/project');
+ */
+const Service = require('./service');
+/**
+ * Get project[index] or get all projects
+ * @param index|null
+ * @param callback(result)
+ */
+exports.getProject = function (index = null, callback){
+   Service.getCollection('project', function (results) {
+       if(index === null) {
+           callback(results);
+       } else {
+           callback(results[index]);
+       }
+   });
+};
 
-module.exports = function(app) {
-    app.get('/projects', (req, res) => {
-        Project.getProject( null,function (results) {
-            res.send(results)
-        });
-    });
-    app.get('/project', (req, res) => {
-        Project.getProject(0, function (result) {
-            res.send(result)
-        });
-    });
-    app.get('/project_add', (req, res) => {
-        Project.addProject({}, function (results) {
-            res.send(results)
-        });
+exports.addProject = function (newProject, callback) {
+    newProject = {'title': 'test3', 'count':20};
+    Service.addItemCollection('project', newProject, function (result) {
+        callback(result);
     });
 };
