@@ -17,8 +17,9 @@
 
 /**
  * @fileoverview Http server handle
- * @author Philip Dukshtau
+ * @author Philip Dukshtau, Dmitry Varlamov
  */
+
 
 /** @const @private A file system handle module. */
 const Fs = require('fs');
@@ -29,6 +30,9 @@ const Exp = require('express');
 /** @const @private Express app. */
 const App = new Exp();
 
+/** @const @private Endless scroll unit. */
+const EndlessScroll = require('./endlessScroll');
+
 
 /**
  * Send file to client function
@@ -36,13 +40,12 @@ const App = new Exp();
  * @param {Object} path Path to file.
  */
 function sendFile(res, path) {
-  Fs.readFile(__dirname + '/../../client' + path,
+  Fs.readFile(path,
       function(err, data) {
         if (err) {
           res.writeHead(500);
           return res.end('Error loading ' + path);
         }
-
         res.writeHead(200);
         res.end(data);
       });
@@ -53,12 +56,25 @@ function sendFile(res, path) {
  */
 function serverHandler() {
   App.get('/', function(req, res) {
-    sendFile(res, '/index.html');
+    sendFile(res, 'D:\\Node JS\\Gress\\client\\project.html');
     console.log('sombody once told me');
   });
 
-  App.get('/robots.txt', function(req, res) {
-    sendFile(res, '/robots.txt');
+
+  /**
+     * this function is used to serve ststic files
+     * go to https://expressjs.com/en/starter/static-files.html to read more
+     */
+  App.use(Exp.static('D:\\Node JS\\Gress\\client'));
+
+
+  /**
+     * this request is needed for infinite scroll
+     * server sends json file
+     */
+  App.get('/package.json', function(req, res) {
+    EndlessScroll.sendJSON(res);
+    console.log('json sent with offset' /* +offset */);
   });
 }
 
