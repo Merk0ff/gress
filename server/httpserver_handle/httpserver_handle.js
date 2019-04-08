@@ -20,6 +20,7 @@
  * @author Philip Dukshtau, Dmitry Varlamov
  */
 
+
 /** @const @private A file system handle module. */
 const Fs = require('fs');
 
@@ -29,85 +30,52 @@ const Exp = require('express');
 /** @const @private Express app. */
 const App = new Exp();
 
+/** @const @private Endless scroll unit. */
+const EndlessScroll = require('./endlessScroll');
+
 
 /**
  * Send file to client function
  * @param {Object} res A response param.
  * @param {Object} path Path to file.
  */
-
-
 function sendFile(res, path) {
-    Fs.readFile(path,
-        function(err, data) {
-            if (err) {
-                res.writeHead(500);
-                return res.end('Error loading ' + path);
-            }
-            res.writeHead(200);
-            res.end(data);
-        });
+  Fs.readFile(path,
+      function(err, data) {
+        if (err) {
+          res.writeHead(500);
+          return res.end('Error loading ' + path);
+        }
+        res.writeHead(200);
+        res.end(data);
+      });
 }
-
-
-/**
- * send JSON variable from server
- * offset is a global variable, every time we send JSON  it increases by 24
- */
-var offset=0;
-function sendJSON(res){
-    var package=
-        {
-            count: 2,
-            projects: [{
-                title: 'title1',
-                description: 'description1',
-                url: 'url1',
-                tag: 'tag1',
-                img: 'picture1'
-            }, {
-                title: 'title2',
-                description: 'description2',
-                url: 'url2',
-                tag: 'tag2',
-                img: 'picture2'
-                }]
-
-        };
-    var jsonPackage=JSON.stringify(package);
-    res.end(jsonPackage);
-    offset+=24;
-}
-
 
 /**
  * Server handle function.
  */
 function serverHandler() {
-
   App.get('/', function(req, res) {
     sendFile(res, 'D:\\Node JS\\Gress\\client\\project.html');
     console.log('sombody once told me');
   });
 
 
-    /**
+  /**
      * this function is used to serve ststic files
      * go to https://expressjs.com/en/starter/static-files.html to read more
      */
   App.use(Exp.static('D:\\Node JS\\Gress\\client'));
 
 
-    /**
+  /**
      * this request is needed for infinite scroll
      * server sends json file
      */
   App.get('/package.json', function(req, res) {
-    sendJSON(res);
-    console.log('json sent with offset'+offset);
+    EndlessScroll.sendJSON(res);
+    console.log('json sent with offset' /* +offset */);
   });
-
-
 }
 
 /**
