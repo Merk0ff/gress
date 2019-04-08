@@ -56,7 +56,7 @@ function sendFile(res, path) {
  */
 function serverHandler() {
   App.get('/', function(req, res) {
-    sendFile(res, 'D:\\Node JS\\Gress\\client\\project.html');
+    sendFile(res, '../client/project.html');
     console.log('sombody once told me');
   });
 
@@ -65,7 +65,7 @@ function serverHandler() {
      * this function is used to serve ststic files
      * go to https://expressjs.com/en/starter/static-files.html to read more
      */
-  App.use(Exp.static('D:\\Node JS\\Gress\\client'));
+  App.use(Exp.static('../client'));
 
 
   /**
