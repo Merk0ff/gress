@@ -21,19 +21,19 @@
 const Project = require('../db/project');
 
 module.exports = function(app) {
-    app.get('/projects', (req, res) => {
-        Project.getProject( null,function (results) {
-            res.send(results)
-        });
+  app.get('/projects', (req, res) => {
+    Project.getProject( null, function(results) {
+      res.send(results);
     });
-    app.get('/project', (req, res) => {
-        Project.getProject(0, function (result) {
-            res.send(result)
-        });
+  });
+  app.get('/project', (req, res) => {
+    Project.getProject(0, function(result) {
+      res.send(result);
     });
-    app.get('/project_add', (req, res) => {
-        Project.addProject({}, function (results) {
-            res.send(results)
-        });
+  });
+  app.get('/project_add', (req, res) => {
+    Project.addProject({}, function(results) {
+      res.send(results);
     });
+  });
 };

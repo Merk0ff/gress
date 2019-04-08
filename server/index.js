@@ -41,7 +41,6 @@ function main() {
       process.exit();
     }
   });
-
 }
 
 if (require.main === module) {

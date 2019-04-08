@@ -18,50 +18,49 @@
 /**
  * @author Dmitriy Vikhlyaev
  */
-
-const dbName = "gress";
+const dbName = 'gress';
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
-const mongoClient = new MongoClient(url, { useNewUrlParser: true });
+const mongoClient = new MongoClient(url, {useNewUrlParser: true});
 
 /**
  * Get collection with name ${table}
  *
- * @param table
- * @param callback(array result)
+ * @param {string} table
+ * @param {callback} callback(array result)
  */
-exports.getCollection = function (table, callback) {
-    mongoClient.connect(function(err, client) {
-        if (err) {
-            return console.log(err);
-        }
-        let collection = client.db(dbName).collection(table);
-        collection.find().toArray(function(err, results){
-            if (err){
-                return console.log(err);
-            }
-            callback(results);
-            console.log(results);
-        });
+exports.getCollection = function(table, callback) {
+  mongoClient.connect(function(err, client) {
+    if (err) {
+      return console.log(err);
+    }
+    const collection = client.db(dbName).collection(table);
+    collection.find().toArray(function(err, results) {
+      if (err) {
+        return console.log(err);
+      }
+      callback(results);
+      console.log(results);
     });
+  });
 };
 /**
  * Add item in collection with name ${table}
  *
- * @param table
- * @param item
- * @param callback(item result)
+ * @param {string} table
+ * @param {object} item
+ * @param {callback} callback(item result)
  */
-exports.addItemCollection = function (table, item, callback) {
-    mongoClient.connect(function (err, client) {
-        let db = client.db(dbName);
-        let collection = db.collection(table);
-        collection.insertOne(item, function(err, result){
-            if(err){
-                return console.log(err);
-            }
-            callback(result.ops);
-            console.log(result);
-        });
+exports.addItemCollection = function(table, item, callback) {
+  mongoClient.connect(function(err, client) {
+    const db = client.db(dbName);
+    const collection = db.collection(table);
+    collection.insertOne(item, function(err, result) {
+      if (err) {
+        return console.log(err);
+      }
+      callback(result.ops);
+      console.log(result);
     });
+  });
 };

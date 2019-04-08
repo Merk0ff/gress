@@ -33,7 +33,7 @@ const App = new Exp();
 const BodyParser = require('body-parser');
 
 /** @const @privat Db database */
-const Db  = require('../config/db');
+const Db = require('../config/db');
 
 /**
  * Send file to client function
@@ -77,9 +77,9 @@ exports.setUp = function(port = 3000) {
   // App.use(BodyParser.urlencoded({ extended: true }));
   // MongoClient.connect(Db.url, (err, database) => {
   //     if (err) return console.log(err);
-      require('../app/routes/routes')(App);
-      App.listen(port, function () {
-          console.log('listening on *:' + port);
-      });
+  require('../app/routes/routes')(App);
+  App.listen(port, function() {
+    console.log('listening on *:' + port);
+  });
   // });
 };
