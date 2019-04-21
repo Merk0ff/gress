@@ -37,8 +37,9 @@ module.exports=function (App)
 
 // Parse JSON bodies (as sent by API clients)
     App.use(Exp.json());
+    
     App.get('/', function(req, res) {
-        sendFile(res, 'D:\\Node JS\\gress-VersionWithWorkingEndlessScroll\\client\\project.html');
+        sendFile(res, '../../client/project.html');
         console.log('sombody once told me');
     });
 
@@ -47,7 +48,7 @@ module.exports=function (App)
      * this function is used to serve ststic files
      * go to https://expressjs.com/en/starter/static-files.html to read more
      */
-    App.use(Exp.static('D:\\Node JS\\gress-VersionWithWorkingEndlessScroll\\client'));
+    App.use(Exp.static('../../client'));
 
 
     /**
