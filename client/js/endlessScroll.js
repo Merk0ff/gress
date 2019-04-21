@@ -1,10 +1,14 @@
+  //global variable to store offset for every user
+  var offset=0;
+
 
 jQuery(document).ready(function($) {
   $(window).scroll(function() {
     if ($(window).height() + $(window).scrollTop() >= $(document).height()) {
       $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: '/package.json',
+        data: {offset: offset},
         success: function(jsonPackage) {
           stopLoading();
           setToPage(jsonPackage);
@@ -29,26 +33,28 @@ jQuery(document).ready(function($) {
   layout += '</div>';
   layout += '</div>';
 
-  function setToPage(jsonPackage) {
+   function setToPage(jsonPackage) {
     var parsedData = JSON.parse(jsonPackage);
     var counter = parsedData.count;
     for (var i=0; i<counter; i++) {
       $('.project').append(layout);
-      var projImg = parsedData[i].img;
+      var projImg = parsedData.projects[i].img;
       var $img = $("<img>"); // ???
       $img.attr("src", "img/" + projImg); // Check the path (!)
-      $(".projectImage:eq("+i+")").append($img); // Check the :eq("+i+")"
-      var projTitle = parsedData[i].title;
-      $(".projectTitle:eq("+i+")").append(projTitle);
-      var projText = parsedData[i].description;
-      $(".projectText:eq("+i+")").append(projText);
-      var projLink = parsedData[i].url;
-      $(".projectLink:eq("+i+")").append(projLink);
-      var projTag = parsedData[i].tag;
-      $(".projectTag:eq("+i+")").append(projTag);
+      $(".projectImage:eq("+offset+")").append($img); // Check the :eq("+i+")"
+      var projTitle = parsedData.projects[i].title;
+      $(".projectTitle:eq("+offset+")").append(projTitle);
+      var projText = parsedData.projects[i].description;
+      $(".projectText:eq("+offset+")").append(projText);
+      var projLink = parsedData.projects[i].url;
+      $(".projectLink:eq("+offset+")").append(projLink);
+      var projTag = parsedData.projects[i].tag;
+      $(".projectTag:eq("+offset+")").append(projTag);
+      offset++;
     }
   }
-
+  
+  
   function startLoading() {
     $('#load').fadeIn(300);
   }
