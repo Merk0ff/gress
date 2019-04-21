@@ -13,33 +13,33 @@ c:/mongodb/bin/mongod.exe<br>
 |Field|Type|Comment|
 |---------------|----------------|-------------|
 |_id|string(id)||
-|title|string||
-|info|string||
-|author|string(id)||
-|media|Media[]|Array type **Media**|
-|users|string(id)[]|Array Users|
-|status|int|Status Code|
+|project_title|string||
+|project_info|string||
+|project_author|string(id)||
+|project_media|Media[]|Array type **Media**|
+|project_users|string(id)[]|Array Users|
+|project_status|int|Status Code|
 
 <h5> Media
 
 |Field|Type|Comment|
 |---------------|----------------|-------------|
-|type|string|Image/Video (maybe format)|
-|title|string||
-|url|string||
+|media_type|string|Image/Video (maybe format)|
+|media_title|string||
+|media_url|string||
 
 <h5> User
 
 |Field|Type|Comment|
 |---------------|----------------|-------------|
 |_id|string(id)||
-|fullname|string||
-|login|string| Nickname|
-|password|string||
-|type|int|Type Code|
-|info|string|Full information|
-|projectOwn|string(id)[]|Array Projects|
-|projectJoin|string(id)[]|Array Projects|
+|user_fullname|string||
+|user_login|string| Nickname|
+|user_password|string||
+|user_type|int|Type Code|
+|user_info|string|Full information|
+|user_projectOwn|string(id)[]|Array Projects|
+|user_projectJoin|string(id)[]|Array Projects|
 
 
 
