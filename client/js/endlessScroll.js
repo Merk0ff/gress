@@ -1,4 +1,3 @@
-
 jQuery(document).ready(function($) {
   $(window).scroll(function() {
     if ($(window).height() + $(window).scrollTop() >= $(document).height()) {
@@ -29,23 +28,26 @@ jQuery(document).ready(function($) {
   layout += '</div>';
   layout += '</div>';
 
+  var OFFSET = 0;
+
   function setToPage(jsonPackage) {
     var parsedData = JSON.parse(jsonPackage);
     var counter = parsedData.count;
     for (var i=0; i<counter; i++) {
       $('.project').append(layout);
-      var projImg = parsedData[i].img;
-      var $img = $("<img>"); // ???
+      var projImg = parsedData.projects[i].img;
+      var $img = $("<img>");
       $img.attr("src", "img/" + projImg); // Check the path (!)
-      $(".projectImage:eq("+i+")").append($img); // Check the :eq("+i+")"
-      var projTitle = parsedData[i].title;
-      $(".projectTitle:eq("+i+")").append(projTitle);
-      var projText = parsedData[i].description;
-      $(".projectText:eq("+i+")").append(projText);
-      var projLink = parsedData[i].url;
-      $(".projectLink:eq("+i+")").append(projLink);
-      var projTag = parsedData[i].tag;
-      $(".projectTag:eq("+i+")").append(projTag);
+      $(".projectImage:eq("+OFFSET+")").append($img);
+      var projTitle = parsedData.projects[i].title;
+      $(".projectTitle:eq("+OFFSET+")").append(projTitle);
+      var projText = parsedData.projects[i].description;
+      $(".projectText:eq("+OFFSET+")").append(projText);
+      var projLink = parsedData.projects[i].url;
+      $(".projectLink:eq("+OFFSET+")").append(projLink);
+      var projTag = parsedData.projects[i].tag;
+      $(".projectTag:eq("+OFFSET+")").append(projTag);
+      OFFSET++;
     }
   }
 
