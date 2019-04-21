@@ -13,7 +13,7 @@ c:/mongodb/bin/mongod.exe<br>
 |Field|Type|Comment|
 |---------------|----------------|-------------|
 |_id|string(id)||
-|name|string||
+|title|string||
 |info|string||
 |author|string(id)||
 |media|Media[]|Array type **Media**|
@@ -25,7 +25,7 @@ c:/mongodb/bin/mongod.exe<br>
 |Field|Type|Comment|
 |---------------|----------------|-------------|
 |type|string|Image/Video (maybe format)|
-|name|string||
+|title|string||
 |url|string||
 
 <h5> User
