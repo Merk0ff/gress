@@ -21,29 +21,45 @@
  */
 
 
-/** @private Offset variable. */
-// var offset = 0;
-
 /**
  * send JSON variable from server
  * offset is a global variable, every time we send JSON  it increases by 24
  * @param {Object} res callback variable
+ * @param {int} offset offset
  */
-exports.sendJSON = function(res) {
+exports.sendJSON = function(res,offset) {
   const pckg = {
-    count: 2,
+    count: 5,
     projects: [{
-      title: 'title1',
-      description: 'description1',
-      url: 'url1',
-      tag: 'tag1',
-      img: 'picture1',
+      title: 'title'+String(offset),
+      description: 'description'+String(offset),
+      url: 'url'+String(offset),
+      tag: 'tag'+String(offset),
+      img: 'picture'+String(offset),
     }, {
-      title: 'title2',
-      description: 'description2',
-      url: 'url2',
-      tag: 'tag2',
-      img: 'picture2',
+      title: 'title'+String((offset+1)),
+      description: 'description'+String((offset+1)),
+      url: 'url'+String((offset+1)),
+      tag: 'tag'+String((offset+1)),
+      img: 'picture'+String((offset+1)),
+    },{
+      title: 'title'+String((offset+2)),
+      description: 'description'+String((offset+2)),
+      url: 'url'+String((offset+2)),
+      tag: 'tag'+String((offset+2)),
+      img: 'picture'+String((offset+2)),
+    },{
+      title: 'title'+String((offset+3)),
+      description: 'description'+String((offset+3)),
+      url: 'url'+String((offset+3)),
+      tag: 'tag'+String((offset+3)),
+      img: 'picture'+String((offset+3)),
+    },{
+      title: 'title'+String((offset+4)),
+      description: 'description'+String((offset+4)),
+      url: 'url'+String((offset+4)),
+      tag: 'tag'+String((offset+4)),
+      img: 'picture'+String((offset+4)),
     }],
 
   };
@@ -52,3 +68,4 @@ exports.sendJSON = function(res) {
   res.end(jsonPackage);
   // offset += 24;
 };
+
