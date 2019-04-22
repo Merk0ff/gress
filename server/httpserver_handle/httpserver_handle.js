@@ -73,13 +73,8 @@ function serverHandler() {
  */
 exports.setUp = function(port = 3000) {
   serverHandler();
-
-  // App.use(BodyParser.urlencoded({ extended: true }));
-  // MongoClient.connect(Db.url, (err, database) => {
-  //     if (err) return console.log(err);
   require('../app/routes/routes')(App);
   App.listen(port, function() {
     console.log('listening on *:' + port);
   });
-  // });
 };

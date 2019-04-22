@@ -18,7 +18,7 @@ c:/mongodb/bin/mongod.exe<br>
 |project_author|string(id)||
 |project_media|Media[]|Array type **Media**|
 |project_users|string(id)[]|Array Users|
-|project_status|int|Status Code|
+|project_status|int|Status Code [1-10]|
 
 <h5> Media
 
@@ -36,7 +36,7 @@ c:/mongodb/bin/mongod.exe<br>
 |user_fullname|string||
 |user_login|string| Nickname|
 |user_password|string||
-|user_type|int|Type Code|
+|user_type|int|Type Code [1-10]|
 |user_info|string|Full information|
 |user_projectOwn|string(id)[]|Array Projects|
 |user_projectJoin|string(id)[]|Array Projects|
