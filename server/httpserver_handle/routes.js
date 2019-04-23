@@ -39,7 +39,7 @@ module.exports=function (App)
     App.use(Exp.json());
     
     App.get('/', function(req, res) {
-        sendFile(res, '../../client/project.html');
+        sendFile(res, './client/project.html');
         console.log('sombody once told me');
     });
 
@@ -48,7 +48,7 @@ module.exports=function (App)
      * this function is used to serve ststic files
      * go to https://expressjs.com/en/starter/static-files.html to read more
      */
-    App.use(Exp.static('../../client'));
+    App.use(Exp.static('./client'));
 
 
     /**
