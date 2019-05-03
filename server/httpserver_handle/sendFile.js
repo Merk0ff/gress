@@ -16,27 +16,26 @@
  */
 
 /**
- * @fileoverview Http server handle
+ * @fileoverview Endless scroll handle.
  * @author Philip Dukshtau, Dmitry Varlamov
  */
 
-
-
-
-/** @const @private Express module. */
-const Exp = require('express');
-
-/** @const @private Express app. */
-const App = new Exp();
-
+/** @const @private A file system handle module. */
+const Fs = require('fs');
 
 /**
- * Set up the Server
- * @param {int} port Server port.
+ * Send file to client function
+ * @param {Object} res A response param.
+ * @param {Object} path Path to file.
  */
-exports.setUp = function(port = 3000) {
-  require('./routes')(App);
-  App.listen(port, function() {
-    console.log('listening on *:' + port);
-  });
-};
+module.exports=function sendFile(res, path) {
+    Fs.readFile(path,
+        function(err, data) {
+            if (err) {
+                res.writeHead(500);
+                return res.end('Error loading ' + path);
+            }
+            res.writeHead(200);
+            res.end(data);
+        });
+}
