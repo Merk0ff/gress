@@ -29,6 +29,7 @@ const Server = require('./httpserver_handle/httpserver_handle');
  */
 function main() {
   Server.setUp();
+
   process.openStdin().addListener('data', function(d) {
     if (d.toString() === 'stop\n') {
       process.exit();

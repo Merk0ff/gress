@@ -21,8 +21,6 @@
  */
 
 
-
-
 /** @const @private Express module. */
 const Exp = require('express');
 
@@ -36,6 +34,7 @@ const App = new Exp();
  */
 exports.setUp = function(port = 3000) {
   require('./routes')(App);
+
   App.listen(port, function() {
     console.log('listening on *:' + port);
   });

@@ -24,48 +24,39 @@
 const Exp = require('express');
 
 /** @const @private sending file unit. */
-const sendFile=require('./sendFile');
+const sendFile = require('./sendFile');
 
 /** @const @private Endless scroll unit. */
 const EndlessScroll = require('./endlessScroll');
 
 
-module.exports=function (App)
-{
-    // Parse URL-encoded bodies (as sent by HTML forms)
-    App.use(Exp.urlencoded());
+module.exports=function(App) {
+  // Parse URL-encoded bodies (as sent by HTML forms)
+  App.use(Exp.urlencoded());
 
-// Parse JSON bodies (as sent by API clients)
-    App.use(Exp.json());
-    
-    App.get('/', function(req, res) {
-        sendFile(res, './client/project.html');
-        console.log('sombody once told me');
-    });
+  // Parse JSON bodies (as sent by API clients)
+  App.use(Exp.json());
 
-
-    /**
-     * this function is used to serve ststic files
-     * go to https://expressjs.com/en/starter/static-files.html to read more
-     */
-    App.use(Exp.static('./client'));
+  App.get('/', function(req, res) {
+    sendFile(res, './client/project.html');
+    console.log('sombody once told me');
+  });
 
 
-    /**
-     * this request is needed for infinite scroll
-     * server sends json file
-     */
-    App.post('/package.json', function(req, res) {
-        console.log('post captured with offset=',req.body.offset);
-        EndlessScroll.sendJSON(res,parseInt(req.body.offset));
-        console.log('json sent');
-    });
+  /**
+   * this function is used to serve ststic files
+   * go to https://expressjs.com/en/starter/static-files.html to read more
+   */
+  App.use(Exp.static('./client'));
 
 
-
-    App.post('/login',function(req,res){
-        console.log('post captured');
-        console.log(req.body.email);
-        console.log(req.body.pass);
-    });
-}
+  /**
+   * this request is needed for infinite scroll
+   * server sends json file
+   */
+  App.post('/package.json', function(req, res) {
+    console.log('post captured with offset = ', req.body.offset);
+    EndlessScroll.sendJSON(res, parseInt(req.body.offset));
+    console.log('json sent');
+  });
+};

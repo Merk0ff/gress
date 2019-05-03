@@ -1,64 +1,85 @@
-  //global variable to store offset for every user
-  var offset=0;
+/** @private variable to store offset for every user. */
+let Offset = 0;
 
-
+/**
+ * Function that send post request to server,
+ * to get JSON with new projects.
+ *
+ * @param {Object} jQuery.
+ */
 jQuery(document).ready(function($) {
   $(window).scroll(function() {
-    if ($(window).height() + $(window).scrollTop() >= $(document).height()) {
+    if ($(window).height() + $(window).scrollTop() + 1
+        >= $(document).height()) {
       $.ajax({
         type: 'POST',
         url: '/package.json',
-        data: {offset: offset},
+        data: {offset: Offset},
         success: function(jsonPackage) {
           stopLoading();
           setToPage(jsonPackage);
-         // jsonPackage['count'];
         },
       });
+
       startLoading();
     }
   });
 
-  // Ты скажешь мне, что так пишут только идиоты
-  // На что я отвечу: "на стэковерфлоу был только такой пример"
-  var layout = '<div class="col-lg-3 col-md-4 col-sm-12">';
-  layout += '<div class="card">';
-  layout += '<img class="card-img-top projectImage">';
-  layout += '<div class="card-body">';
-  layout += '<h4 class="card-title text-uppercase projectTitle">Sometitle</h4>';
-  layout += '<p class="card-text projectText">sometext</p>';
-  layout += '<a class="link projectLink" href="#">Read More</a>';
-  layout += '<span class="text-uppercase float-right projectTag">Tag</span>';
-  layout += '</div>';
-  layout += '</div>';
-  layout += '</div>';
+  const layout =
+    `<div class="col-lg-3 col-md-4 col-sm-12">
+          <div class="card">
+              <img class="card-img-top projectImage">
+              <div class="card-body">
+                  <h4 class="card-title text-uppercase projectTitle">
+                    Sometitle
+                   </h4>
+                  <p class="card-text projectText">sometext</p>
+                  <a class="link projectLink" href="#">Read More</a>
+                  <span class="text-uppercase float-right projectTag">Tag</span>
+              </div>
+          </div>
+      </div>`;
 
-   function setToPage(jsonPackage) {
-    var parsedData = JSON.parse(jsonPackage);
-    var counter = parsedData.count;
-    for (var i=0; i<counter; i++) {
+  /**
+   * Function that insert received JSON to page
+   * @param {Object} jsonPackage, package that had been received.
+   */
+  function setToPage(jsonPackage) {
+    const parsedData = JSON.parse(jsonPackage);
+
+    for (let i = 0; i < parsedData.count; i++) {
       $('.project').append(layout);
-      var projImg = parsedData.projects[i].img;
-      var $img = $("<img>"); // ???
-      $img.attr("src", "img/" + projImg); // Check the path (!)
-      $(".projectImage:eq("+offset+")").append($img); // Check the :eq("+i+")"
-      var projTitle = parsedData.projects[i].title;
-      $(".projectTitle:eq("+offset+")").append(projTitle);
-      var projText = parsedData.projects[i].description;
-      $(".projectText:eq("+offset+")").append(projText);
-      var projLink = parsedData.projects[i].url;
-      $(".projectLink:eq("+offset+")").append(projLink);
-      var projTag = parsedData.projects[i].tag;
-      $(".projectTag:eq("+offset+")").append(projTag);
-      offset++;
+
+      const img = $('<img>');
+      // Check the path (!)
+      img.attr('src', 'img/' + parsedData.projects[i].img);
+      // Check the :eq("+i+")"
+      $('.projectImage:eq(' + Offset + ')').append(img);
+
+      $('.projectTitle:eq(' + Offset + ')')
+          .append(parsedData.projects[i].title);
+      $('.projectText:eq(' + Offset + ')')
+          .append( parsedData.projects[i].description);
+      $('.projectLink:eq(' + Offset + ')')
+          .append(parsedData.projects[i].url);
+      $('.projectTag:eq(' + Offset + ')')
+          .append(parsedData.projects[i].tag);
+
+      Offset++;
     }
   }
-  
-  
+
+
+  /**
+   * Start loading function
+   */
   function startLoading() {
     $('#load').fadeIn(300);
   }
 
+  /**
+   * Stop loading function
+   */
   function stopLoading() {
     $('#load').fadeOut();
   }

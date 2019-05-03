@@ -29,13 +29,13 @@ const Fs = require('fs');
  * @param {Object} path Path to file.
  */
 module.exports=function sendFile(res, path) {
-    Fs.readFile(path,
-        function(err, data) {
-            if (err) {
-                res.writeHead(500);
-                return res.end('Error loading ' + path);
-            }
-            res.writeHead(200);
-            res.end(data);
-        });
-}
+  Fs.readFile(path, function(err, data) {
+    if (err) {
+      res.writeHead(500);
+      return res.end('Error loading ' + path);
+    }
+
+    res.writeHead(200);
+    res.end(data);
+  });
+};

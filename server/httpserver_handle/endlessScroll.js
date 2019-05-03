@@ -27,45 +27,22 @@
  * @param {Object} res callback variable
  * @param {int} offset offset
  */
-exports.sendJSON = function(res,offset) {
-  const pckg = {
+exports.sendJSON = function(res, offset) {
+  let pckg = {
     count: 5,
-    projects: [{
-      title: 'title'+String(offset),
-      description: 'description'+String(offset),
-      url: 'url'+String(offset),
-      tag: 'tag'+String(offset),
-      img: 'picture'+String(offset),
-    }, {
-      title: 'title'+String((offset+1)),
-      description: 'description'+String((offset+1)),
-      url: 'url'+String((offset+1)),
-      tag: 'tag'+String((offset+1)),
-      img: 'picture'+String((offset+1)),
-    },{
-      title: 'title'+String((offset+2)),
-      description: 'description'+String((offset+2)),
-      url: 'url'+String((offset+2)),
-      tag: 'tag'+String((offset+2)),
-      img: 'picture'+String((offset+2)),
-    },{
-      title: 'title'+String((offset+3)),
-      description: 'description'+String((offset+3)),
-      url: 'url'+String((offset+3)),
-      tag: 'tag'+String((offset+3)),
-      img: 'picture'+String((offset+3)),
-    },{
-      title: 'title'+String((offset+4)),
-      description: 'description'+String((offset+4)),
-      url: 'url'+String((offset+4)),
-      tag: 'tag'+String((offset+4)),
-      img: 'picture'+String((offset+4)),
-    }],
-
+    projects: []
   };
 
-  const jsonPackage=JSON.stringify(pckg);
-  res.end(jsonPackage);
-  // offset += 24;
+  for (let i = offset; i < offset + 5; i++) {
+    pckg.projects.push({
+      title: 'title' + String(i),
+      description: 'description' + String(i),
+      url: 'url' + String(i),
+      tag: 'tag' + String(i),
+      img: 'picture' + String(i)
+    });
+  }
+
+  res.end(JSON.stringify(pckg));
 };
 
