@@ -24,8 +24,8 @@ const table = 'project';
 
 /**
  * Get project[index] or get all projects
- * @param {int} index|null
- * @param {callback} callback(result) Return Project|Array
+ * @param {null} index|null
+ * @param {function} callback(result) Return Project|Array
  */
 exports.getProject = function(index = null, callback) {
   Service.getCollection(table,
@@ -41,25 +41,25 @@ exports.getProject = function(index = null, callback) {
 /**
  * Get project on id
  * @param {string} id
- * @param {callback} callback(result) Return Project|Array
+ * @param {function} callback(result) Return Project|Array
  */
 exports.getProjectOnId = function(id, callback) {
   id = new Service.ObjectId(id);
   Service.getCollectionByFilter(table, {_id: id},
-      function(result) {
-        callback(result);
+      function(err, result) {
+        callback(err, result);
       });
 };
 
 /**
  * Add project to collection
  * @param {Object} newProject
- * @param {callback} callback(result) Return added Project
+ * @param {function} callback(result) Return added Project
  */
 exports.addProject = function(newProject, callback) {
   Service.addItemCollection(table, newProject,
-      function(result) {
-        callback(result);
+      function(err, result) {
+        callback(err, result);
       });
 };
 
@@ -67,12 +67,12 @@ exports.addProject = function(newProject, callback) {
  * Get project count by filter
  *
  * @param {object} filter
- * @param {callback} callback(result) Return count Project
+ * @param {function} callback(result) Return count Project
  */
 exports.getProjectCount = function(filter = null, callback) {
   Service.getCollectionByFilter(table, filter,
-      function(result) {
-        callback(result.length());
+      function(err, result) {
+        callback(err, result.length());
       });
 };
 
@@ -80,11 +80,11 @@ exports.getProjectCount = function(filter = null, callback) {
  * Check existence Project on id
  *
  * @param {string} id
- * @param {callback} callback(boolean)
+ * @param {function} callback(boolean)
  */
 exports.checkProject = function(id, callback) {
   this.getProjectOnId(id,
-      function(result) {
-        callback(result.length > 0);
+      function(err, result) {
+        callback(err, result.length > 0);
       });
 };

@@ -23,13 +23,13 @@ const User = require('../db/db_user');
 
 module.exports = function(app) {
   app.get('/projects', (req, res) => {
-    Project.getProject( null, function(results) {
-      res.send(results);
+    Project.getProject( null, function(err, result) {
+      res.send(result);
     });
   });
 
   app.get('/project', (req, res) => {
-    Project.getProject(0, function(result) {
+    Project.getProject(0, function(err, result) {
       res.send(result);
     });
   });
@@ -44,25 +44,25 @@ module.exports = function(app) {
       project_users: [],
       project_status: 1,
     };
-    Project.addProject(pr, function(results) {
-      res.send(results);
+    Project.addProject(pr, function(err, result) {
+      res.send(result);
     });
   });
 
   app.post('/project2', (req, res) => {
-    Project.addProject({name: 'dfagt'}, function(results) {
-      res.send(results);
+    Project.addProject({name: 'dfagt'}, function(err, result) {
+      res.send(result);
     });
   });
 
   app.get('/users', (req, res) => {
-    User.getAllUsers( function(results) {
-      res.send(results);
+    User.getAllUsers( function(err, result) {
+      res.send(result);
     });
   });
 
   app.post('/users', (req, res) => {
-    const us = {
+    const user = {
       user_fullname: 'dima',
       user_login: 'dim',
       user_password: '12345',
@@ -71,13 +71,13 @@ module.exports = function(app) {
       user_projectOwn: ['5cbe090cfa03ff263c1f4721'],
       user_projectJoin: [],
     };
-    User.addUser(us, function(results) {
-      res.send(results);
+    User.addUser(user, function(err, result) {
+      res.send(result);
     });
   });
 
   app.get('/test', (req, res) => {
-    User.checkUser('5cbc8d8fa34f071fe8c0c5f1', function(result) {
+    User.checkUser('5cbc8d8fa34f071fe8c0c5f1', function(err, result) {
       res.send(result);
     });
   });

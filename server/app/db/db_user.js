@@ -40,13 +40,13 @@ const table = 'user';
  *
  * @param {string} login
  * @param {string} password
- * @param {callback} callback(result) Return User|Array
+ * @param {function} callback(result) Return User|Array
  */
-exports.getUserOnLoginPassword = function(login, password, callback) {
+exports.getUserByLoginPassword = function(login, password, callback) {
   const filter = {user_login: login, user_password: password};
   Service.getCollectionByFilter(table, filter,
-      function(results) {
-        callback(results);
+      function(err, result) {
+        callback(err, result);
       });
 };
 
@@ -54,24 +54,24 @@ exports.getUserOnLoginPassword = function(login, password, callback) {
  * Get user on user_id
  *
  * @param {string} id
- * @param {callback} callback(result) Return User|null
+ * @param {function} callback(result) Return User|null
  */
 exports.getUserOnId = function(id, callback) {
   Service.getCollectionByFilter(table, {_id: id},
-      function(result) {
-        callback(result);
+      function(err, result) {
+        callback(err, result);
       });
 };
 
 /**
  * Get all users (admin)
  *
- * @param {callback} callback(result) Return Array
+ * @param {function} callback(result) Return Array
  */
 exports.getAllUsers = function( callback) {
   Service.getCollectionByFilter(table, null,
-      function(results) {
-        callback(results);
+      function(err, result) {
+        callback(err, result);
       });
 };
 
@@ -79,7 +79,7 @@ exports.getAllUsers = function( callback) {
  * Add User to collection
  *
  * @param {Object} newUser
- * @param {callback} callback(result) Return added User
+ * @param {function} callback(result) Return added User
  */
 exports.addUser = function(newUser, callback) {
   let err = 0;
@@ -88,7 +88,7 @@ exports.addUser = function(newUser, callback) {
   }
   if (Array.isArray(newUser.user_projectOwn) && Array.isArray(newUser.user_projectJoin)) {
     newUser.user_projectOwn.forEach(function(val, i, ar) {
-      Project.checkProject(val, function(result) {
+      Project.checkProject(val, function(err, result) {
         if (result) {
           ar[i] = new Service.ObjectId(val);
         } else {
@@ -98,7 +98,7 @@ exports.addUser = function(newUser, callback) {
       });
     });
     newUser.user_projectJoin.forEach(function(val, i, ar) {
-      Project.checkProject(val, function(result) {
+      Project.checkProject(val, function(err, result) {
         if (result) {
           ar[i] = new Service.ObjectId(val);
         } else {
@@ -109,27 +109,30 @@ exports.addUser = function(newUser, callback) {
     });
   } else {
     console.log('user_projectOwn and user_projectJoin must be Array');
-    callback(null);
+    callback('user_projectOwn and user_projectJoin must be Array', null);
     return;
   }
   if (err === 0) {
     Service.getCollectionByFilter(table, {user_login: newUser.user_login},
-        function(result) {
+        function(err, result) {
+          if (err !== null) {
+            callback(err, null);
+          }
           if (result !== null) {
             if (result.length === 0) {
               Service.addItemCollection(table, newUser,
-                  function(result) {
-                    callback(result);
+                  function(err, result) {
+                    callback(err, result);
                   });
             } else {
               console.log('Login ' + newUser.user_login + ' already used');
-              callback(null);
+              callback('Login ' + newUser.user_login + ' already used', null);
             }
           }
         });
   } else {
     console.log('Missing login');
-    callback(null);
+    callback('Missing login', null);
   }
 };
 
@@ -137,12 +140,12 @@ exports.addUser = function(newUser, callback) {
  * Get users count on filter
  *
  * @param {object} filter
- * @param {callback} callback(result) Return count Project
+ * @param {function} callback(result) Return count Project
  */
 exports.getProjectCount = function(filter = null, callback) {
   Service.getCollectionByFilter(table, filter,
-      function(result) {
-        callback(result.length());
+      function(err, result) {
+        callback(err, result.length());
       });
 };
 
@@ -150,11 +153,11 @@ exports.getProjectCount = function(filter = null, callback) {
  * Check existence User on id
  *
  * @param {string} id
- * @param {callback} callback(boolean)
+ * @param {function} callback(boolean:bool)
  */
 exports.checkUser = function(id, callback) {
-  this.getUser(id,
-      function(result) {
-        callback(result.length > 0);
+  this.getUserOnId(id,
+      function(err, result) {
+        callback(err, result.length > 0);
       });
 };

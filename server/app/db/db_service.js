@@ -30,13 +30,13 @@ exports.ObjectId = require('mongodb').ObjectId;
 
 mongoClient.connect(function(err, newClient) {
   if (err) {
-    callback(null);
+    callback(err, null);
     return console.log(err);
   }
   client = newClient;
   db = client.db(dbName);
   require('./db_install').install(db, function(message) {
-    console.log(message);
+    console.log(null, message);
   });
 });
 
@@ -44,16 +44,16 @@ mongoClient.connect(function(err, newClient) {
  * Get collection(s) with name ${table}
  *
  * @param {string} table
- * @param {callback} callback(result) Return Object|Array
+ * @param {function} callback(err, result) Return Object|Array
  */
 exports.getCollection = function(table, callback) {
   const collection = db.collection(table);
   collection.find().toArray(function(err, results) {
     if (err) {
-      callback(null);
+      callback(err, null);
       return console.log(err);
     }
-    callback(results);
+    callback(null, results);
     // console.log(results);
   });
   // });
@@ -64,16 +64,16 @@ exports.getCollection = function(table, callback) {
  *
  * @param {string} table
  * @param {Object} item
- * @param {callback} callback(item result) Return added Object
+ * @param {function} callback(err, result) Return added Object
  */
 exports.addItemCollection = function(table, item, callback) {
   const collection = db.collection(table);
   collection.insertOne(item, function(err, result) {
     if (err) {
-      callback(null);
+      callback(err, null);
       return console.log(err);
     }
-    callback(result.ops);
+    callback(null, result.ops);
     // console.log(result);
   });
 };
@@ -83,7 +83,7 @@ exports.addItemCollection = function(table, item, callback) {
  *
  * @param {string} table
  * @param {object} filter
- * @param {callback} callback(result) Return Object|Array
+ * @param {function} callback(err, result) Return Object|Array
  */
 exports.getCollectionByFilter = function(table, filter, callback) {
   // if ('_id' in filter) {
@@ -92,10 +92,10 @@ exports.getCollectionByFilter = function(table, filter, callback) {
   const collection = db.collection(table);
   collection.find(filter).toArray(function(err, results) {
     if (err) {
-      callback(null);
+      callback(err, null);
       return console.log(err);
     }
-    callback(results);
+    callback(null, results);
     // console.log(results);
   });
 };
@@ -104,10 +104,10 @@ exports.update = function(table, id, item, callback) {
   const collection = db.collection(table);
   collection.find({_id: id}).toArray(function(err, results) {
     if (err) {
-      callback(null);
+      callback(err, null);
       return console.log(err);
     }
-    callback(results);
+    callback(null, results);
     // console.log(results);
   });
 };
