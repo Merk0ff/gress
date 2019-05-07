@@ -20,145 +20,166 @@
  */
 
 /**
- *  Object User {
- *  @var {string(id)} id
- *  @var {string} user_fullname
- *  @var {string} user_login (unique)
- *  @var {string} user_password
- *  @var {int} user_type [1-10]
- *  @var {string|null} user_info
- *  @var {array {string(id)}} user_projectOwn
- *  @var {array {string(id}}) user_projectJoin
- *  @var {string|null} user_avatar_url
+ *  @var {ObjectId}     user.id
+ *  @var {string}       user.user_fullname
+ *  @var {string}       user.user_login (unique)
+ *  @var {string}       user.user_password
+ *  @var {int}          user.user_type
+ *  @var {string|null}  user.user_info
+ *  @var {Array}        user.user_projectOwn
+ *  @var {ObjectId}     user.user_projectOwn[]
+ *  @var {Array)        user.user_projectJoin
+ *  @var {ObjectId)     user.user_projectJoin[]
+ *  @var {string|null}  user.user_avatar_url
  * }
  */
 
 const Service = require('./db_service');
 const Project = require('./db_project');
 const table = 'user';
+
 /**
- * Get User on login-password
+ * Get user
+ * Return array of users
+ *
+ * @param {Object} filter
+ * @param {int} since
+ * @param {int} limit
+ * @return {Array|null}
+ */
+const getUser = async function(filter = {}, since = 0, limit = 0) {
+  return await Service.getCollection(table, filter, since, limit);
+};
+
+/**
+ * Check existence user by id
+ *
+ * @param {ObjectId} id
+ * @return {boolean|null}
+ */
+const checkUser = async function(id) {
+  return await Service.checkItem(table, id);
+};
+/**
+ * Check existence user by login
+ *
+ * @param {string} login
+ * @return {boolean|null}
+ */
+const checkUserByLogin = async function(login) {
+  return await getUser({user_login: login}, 0, 1);
+};
+
+/**
+ * Check all ObjectId in user
+ *
+ * @param {Object} user
+ * @return {boolean}
+ */
+const checkObjectId = async function(user) {
+  if ('_id' in user) {
+    if (!await checkUser(user._id)) {
+      console.trace('Invalid _id');
+      return false;
+    }
+  }
+  if ('user_projectOwn' in user) {
+    if (!Array.isArray(user.user_projectOwn)) {
+      console.trace('user_projectOwn must be Array');
+      return false;
+    }
+    for (const item of user.user_projectOwn) {
+      if (!await Project.checkProject(item)) {
+        console.trace('Invalid id in user_projectOwn');
+        return false;
+      }
+    }
+  }
+  if ('user_projectJoin' in user) {
+    if (!Array.isArray(user.user_projectJoin)) {
+      console.trace('user_projectJoin must be Array');
+      return false;
+    }
+    for (const item of user.user_projectJoin) {
+      if (!await Project.checkProject(item)) {
+        console.trace('Invalid id in user_projectJoin');
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+
+/**
+ * Get user by login-password
  *
  * @param {string} login
  * @param {string} password
- * @param {function} callback(result) Return User|Array
+ * @return {Object|null}
  */
-exports.getUserByLoginPassword = function(login, password, callback) {
-  const filter = {user_login: login, user_password: password};
-  Service.getCollectionByFilter(table, filter,
-      function(err, result) {
-        callback(err, result);
-      });
+const getUserByLoginPassword = async function(login, password) {
+  return await getUser( {user_login: login, user_password: password}, 0, 1 );
 };
 
 /**
- * Get user on user_id
+ * Get user by id
  *
- * @param {string} id
- * @param {function} callback(result) Return User|null
+ * @param {ObjectId} id
+ * @return {Object|null}
  */
-exports.getUserOnId = function(id, callback) {
-  Service.getCollectionByFilter(table, {_id: id},
-      function(err, result) {
-        callback(err, result);
-      });
+const getUserById = async function(id) {
+  return await getUser({_id: id}, 0, 1);
 };
 
-/**
- * Get all users (admin)
- *
- * @param {function} callback(result) Return Array
- */
-exports.getAllUsers = function( callback) {
-  Service.getCollectionByFilter(table, null,
-      function(err, result) {
-        callback(err, result);
-      });
-};
 
 /**
- * Add User to collection
+ * Add user to collection
  *
  * @param {Object} newUser
- * @param {function} callback(result) Return added User
+ * @return {Object|null}
  */
-exports.addUser = function(newUser, callback) {
-  let err = 0;
+const addUser = async function(newUser) {
   if ('user_login' in newUser) {
-    err = 1;
+    if (!await checkUserByLogin(newUser.user_login)) {
+      if (await checkObjectId(newUser)) {
+        return await Service.addItemCollection(table, newUser);
+      }
+    }
   }
-  if (Array.isArray(newUser.user_projectOwn) && Array.isArray(newUser.user_projectJoin)) {
-    newUser.user_projectOwn.forEach(function(val, i, ar) {
-      Project.checkProject(val, function(err, result) {
-        if (result) {
-          ar[i] = new Service.ObjectId(val);
-        } else {
-          console.log('user_projectOwn[] must be Array(string(id))');
-          err = 1;
-        }
-      });
-    });
-    newUser.user_projectJoin.forEach(function(val, i, ar) {
-      Project.checkProject(val, function(err, result) {
-        if (result) {
-          ar[i] = new Service.ObjectId(val);
-        } else {
-          console.log('user_projectJoin[] must be Array(string(id))');
-          err = 1;
-        }
-      });
-    });
-  } else {
-    console.log('user_projectOwn and user_projectJoin must be Array');
-    callback('user_projectOwn and user_projectJoin must be Array', null);
-    return;
-  }
-  if (err === 0) {
-    Service.getCollectionByFilter(table, {user_login: newUser.user_login},
-        function(err, result) {
-          if (err !== null) {
-            callback(err, null);
-          }
-          if (result !== null) {
-            if (result.length === 0) {
-              Service.addItemCollection(table, newUser,
-                  function(err, result) {
-                    callback(err, result);
-                  });
-            } else {
-              console.log('Login ' + newUser.user_login + ' already used');
-              callback('Login ' + newUser.user_login + ' already used', null);
-            }
-          }
-        });
-  } else {
-    console.log('Missing login');
-    callback('Missing login', null);
-  }
+  return null;
 };
 
 /**
- * Get users count on filter
+ * Get users count by filter
  *
  * @param {object} filter
- * @param {function} callback(result) Return count Project
+ * @return {int|null}
  */
-exports.getProjectCount = function(filter = null, callback) {
-  Service.getCollectionByFilter(table, filter,
-      function(err, result) {
-        callback(err, result.length());
-      });
+const getUserCount = async function(filter = {}) {
+  return await Service.getCountCollection(table, filter);
 };
 
 /**
- * Check existence User on id
+ * Update user
+ * Return updated user
  *
- * @param {string} id
- * @param {function} callback(boolean:bool)
+ * @param {Object} newUser
+ * @return {Object|null}
  */
-exports.checkUser = function(id, callback) {
-  this.getUserOnId(id,
-      function(err, result) {
-        callback(err, result.length > 0);
-      });
+const updateUser = async function(newUser) {
+  if (await checkObjectId(newUser)) {
+    return await Service.updateItem(table, newUser);
+  }
+  return null;
 };
+
+
+module.exports.getUserByLoginPassword = getUserByLoginPassword;
+module.exports.getUserById = getUserById;
+module.exports.getUser = getUser;
+module.exports.addUser = addUser;
+module.exports.checkUser = checkUser;
+module.exports.checkUserByLogin = checkUserByLogin;
+module.exports.getUserCount = getUserCount;
+module.exports.updateUser = updateUser;

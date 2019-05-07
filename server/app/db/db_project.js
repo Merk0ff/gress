@@ -20,103 +20,132 @@
  */
 
 /**
- *  Object User {
- *  @var {string(id)} id
- *  @var {string} project_title
- *  @var {string} project_info
- *  @var {string(id)} project_author
- *  @var {array {Object}} project_media {
- *    @var {string} media_type
- *    @var {string} media_title
- *    @var {string} media_url
- *  }
- *  @var {array {string(id)}} project_users
- *  @var {int} project_status [1-10]
- * }
+ *  @var {ObjectId} project._id
+ *  @var {string}   project.project_title
+ *  @var {data}     project.project_date
+ *  @var {string}   project.project_info
+ *  @var {ObjectId} project.project_author
+ *  @var {Array}    project.project_media
+ *  @var {string}   project.project_media[].media_type
+ *  @var {string}   project.project_media[].media_title
+ *  @var {string}   project.project_media[].media_url
+ *  @var {Array}    project.project_users
+ *  @var {ObjectId} project.project_users[]
+ *  @var {int}      project.project_status
  */
 
 const Service = require('./db_service');
+const User = require('./db_user');
+
 const table = 'project';
 
 /**
- * Get project[index] or get all projects
- * @param {null} index|null
- * @param {function} callback(result) Return Project|Array
+ * Check existence project by id
+ *
+ * @param {ObjectId} id
+ * @return {boolean|null}
  */
-exports.getProject = function(index = null, callback) {
-  Service.getCollection(table,
-      function(results) {
-        if (index === null) {
-          callback(results);
-        } else {
-          callback(results[index]);
-        }
-      });
+const checkProject = async function(id) {
+  return await Service.checkItem(table, id);
 };
 
 /**
- * Get projects count
- * @param {function} callback(result) Return Project|Array
+ * Check all ObjectId in project
+ *
+ * @param {Object} project
+ * @return {boolean}
  */
-exports.getProject = function(callback) {
-  Service.getCollection(
-
-    function(results) {
-      if (index === null) {
-        callback(results);
-      } else {
-        callback(results[index]);
+const checkObjectId = async function(project) {
+  if ('_id' in project) {
+    if (!await checkProject(project._id)) {
+      console.trace('Invalid _id');
+      return false;
+    }
+  }
+  if ('project_users' in project) {
+    if (!await User.checkUser(project.project_author)) {
+      console.trace('Invalid project_author');
+      return false;
+    }
+  }
+  if ('project_users' in project) {
+    if (!Array.isArray(project.project_users)) {
+      console.trace('project_users must be Array');
+      return false;
+    }
+    for (const item of project.project_users) {
+      if (!await User.checkUser(item)) {
+        console.trace('Invalid project_users');
+        return false;
       }
-    });
+    }
+  }
+  return true;
+};
+
+/**
+ * Get projects
+ * Return array of projects
+ *
+ * @param {Object} filter
+ * @param {int} since
+ * @param {int} limit
+ * @return {Array|null}
+ */
+const getProject = async function(filter = {}, since = 0, limit = 0) {
+  return await Service.getCollection(table, filter, since, limit);
 };
 
 /**
  * Get project on id
- * @param {string} id
- * @param {function} callback(result) Return Project|Array
+ *
+ * @param {ObjectId} id
+ * @return {Object|null}
  */
-exports.getProjectOnId = function(id, callback) {
-  id = new Service.ObjectId(id);
-  Service.getCollectionByFilter(table, {_id: id},
-      function(err, result) {
-        callback(err, result);
-      });
+const getProjectById = async function(id) {
+  return await getProject( {_id: id}, 0, 1 );
 };
 
 /**
- * Add project to collection
+ * Add project
+ *
  * @param {Object} newProject
- * @param {function} callback(result) Return added Project
+ * @return {Object|null}
  */
-exports.addProject = function(newProject, callback) {
-  Service.addItemCollection(table, newProject,
-      function(err, result) {
-        callback(err, result);
-      });
+const addProject = async function(newProject) {
+  if (await checkObjectId(newProject)) {
+    return await Service.addItemCollection(table, newProject);
+  }
+  return null;
 };
 
 /**
- * Get project count by filter
+ * Get project count
  *
- * @param {object} filter
- * @param {function} callback(result) Return count Project
+ * @param {Object} filter
+ * @return {int|null}
  */
-exports.getProjectCount = function(filter = null, callback) {
-  Service.getCollectionByFilter(table, filter,
-      function(err, result) {
-        callback(err, result.length());
-      });
+const getProjectCount = async function(filter = {}) {
+  return await Service.getCountCollection(table, filter);
 };
 
 /**
- * Check existence Project on id
+ * Update project
+ * Return updated project
  *
- * @param {string} id
- * @param {function} callback(boolean)
+ * @param {Object} newProject (only fields to update and '_id')
+ * @return {Object|null}
  */
-exports.checkProject = function(id, callback) {
-  this.getProjectOnId(id,
-      function(err, result) {
-        callback(err, result.length > 0);
-      });
+const updateProject = async function(newProject) {
+  if (checkObjectId(newProject)) {
+    return await Service.updateItem(table, newProject);
+  }
+  return null;
 };
+
+module.exports.getProject = getProject;
+module.exports.getProjectCount = getProjectCount;
+module.exports.getProjectById = getProjectById;
+module.exports.addProject = addProject;
+module.exports.checkProject = checkProject;
+module.exports.updateProject = updateProject;

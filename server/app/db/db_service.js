@@ -23,124 +23,148 @@ const dbName = 'gress';
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 const mongoClient = new MongoClient(url, {useNewUrlParser: true});
-let client;
+
 /** @var {Db} db */
 let db;
 
 const ObjectId = require('mongodb').ObjectId;
 
-mongoClient.connect(function(err, newClient) {
-  if (err) {
-    callback(err, null);
-    return console.log(err);
+const connect = async function() {
+  try {
+    db = await (await mongoClient.connect()).db(dbName);
+    await require('./db_install').install(db);
+  } catch (e) {
+    console.trace(e);
   }
-  client = newClient;
-  db = client.db(dbName);
-  require('./db_install').install(db, function(message) {
-    console.log(message);
-  });
-  exports.updateItem('project', {}, function(err, result) {
-    console.log(result);
-  });
-});
+
+  // const q = await getCollection('project');
+  // console.trace(q);
+};
+
 
 /**
- * Get collection(s) with name ${table}
+ * Get documents
+ * Return array of documents
  *
  * @param {string} table
- * @param {function} callback(err, result) Return Object|Array
+ * @param {Object} filter
+ * @param {int} since
+ * @param {int} limit
+ * @return {Array|null}
  */
-const getCollection = function(table, callback) {
-  collection = db.collection(table).find().toArray(function(err, results) {
-    if (err) {
-      callback(err, null);
-      return console.log(err);
-    }
-    callback(null, results);
-    // console.log(results);
-  });
-  // });
+const getCollection = async function(
+    table,
+    filter = {},
+    since = 0,
+    limit = 0
+) {
+  try {
+    return await db.
+        collection(table).
+        find(filter).
+        skip(since).
+        limit(limit).
+        toArray();
+  } catch (e) {
+    console.trace(e);
+    return null;
+  }
 };
 
 /**
- * Add item in collection with name ${table}
+ * Add document in collection
+ * Return added document
  *
  * @param {string} table
  * @param {Object} item
- * @param {function} callback(err, result) Return added Object
+ * @return {Object|null}
  */
-const addItemCollection = function(table, item, callback) {
-  db.collection(table).insertOne(item, function(err, result) {
-    if (err) {
-      callback(err, null);
-      return console.log(err);
-    }
-    callback(null, result.ops);
-    // console.log(result);
-  });
+const addItemCollection = async function(table, item) {
+  try {
+    return await db.collection(table).insertOne(item);
+  } catch (e) {
+    console.trace(e);
+    return null;
+  }
 };
 
 /**
- * Get collection(s) with name ${table} on filter
+ * Get count of documents
  *
  * @param {string} table
- * @param {object} filter
- * @param {function} callback(err, result) Return Object|Array
+ * @param {Object} filter
+ * @return {int|null}
  */
-const getCollectionByFilter = function(table, filter, callback) {
-  db.collection(table).find(filter).toArray(function(err, results) {
-    if (err) {
-      callback(err, null);
-      return console.log(err);
-    }
-    callback(null, results);
-  });
+const getCountCollection = async function(table, filter = {}) {
+  try {
+    return db.collection(table).find(filter).count();
+  } catch (e) {
+    console.trace(e);
+    return null;
+  }
 };
 
 /**
- * Check id in collection(s)
+ * Check document by '_id'
  *
  * @param {string} table
  * @param {ObjectId} id
- * @param {function} callback(result) Return boolean
+ * @return {boolean|null}
  */
-const checkItem = async function(table, id, callback) {
-  callback(await db.collection(table).find({_id: id}, {_id: 1}).limit(1).count());
+const checkItem = async function(table, id) {
+  try {
+    return (!!await db.
+        collection(table).
+        find({_id: id}, {_id: 1}).
+        limit(1).
+        count()
+    );
+  } catch (e) {
+    console.trace(e);
+    return null;
+  }
 };
 
 /**
  * Update document in collection(
+ * Return updated document
  *
- * @param {string} table
+ * @param {String} table
  * @param {Object} item
- * @param {function} callback(err, result) Return err, result
+ * @return {Object|null}
  */
-const updateItem = function(table, item, callback) {
-  item = {'_id': '5cbe08798f0d1e0a9c72f7b8', 'project_title': 'test', 'project_info': 'infooooooo', 'project_author': new ObjectId('5cbe08192b37d53348e1177d'), 'project_media': [], 'project_users': [], 'project_status': 1};
+const updateItem = async function(table, item) {
   if (!('_id' in item)) {
-    callback('No id in item', null);
-    return;
+    console.trace('No \'id\' in item');
+    return null;
   }
   const id = new ObjectId(item._id);
-  checkItem(table, id, function(result) {
-    if (result !== 0) {
-      delete item._id;
-      db.collection(table).updateOne({_id: id}, {$set: item}, {upsert: true}, function(err, result) {
-        if (err) {
-          callback(err, null);
-          return console.log(err);
-        }
-        callback(null, result);
-      });
-    } else {
-      callback('No document with id ' + id, null);
+  if (await checkItem(table, id)) {
+    delete item._id;
+    try {
+      return await db.
+          collection(table).
+          updateOne(
+              {_id: id},
+              {$set: item},
+              {upsert: true}
+          );
+    } catch (e) {
+      console.trace(e);
+      return null;
     }
-  });
+  } else {
+    console.trace('No document with \'id\' ' + id);
+    return null;
+  }
 };
 
 module.exports.getCollection = getCollection;
 module.exports.addItemCollection = addItemCollection;
-module.exports.getCollectionByFilter = getCollectionByFilter;
 module.exports.checkItem = checkItem;
 module.exports.updateItem = updateItem;
 module.exports.ObjectId = ObjectId;
+module.exports.getCountCollection = getCountCollection;
+
+connect();
+
