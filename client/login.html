@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Gress.ru/Log_in </title>
+    <!-- Meta -->
+    <!-- Meta character set -->
+    <meta charset="utf-8">
+    <!--CSS-->
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-row ">
+            <form action="/login" method="POST" class="form-horizontal">
+                <span class="header1">LOG IN</span>
+                <div class="form-group">
+                    <div class="input-container">
+                        <i class="fa fa-user icon"></i>
+                        <input type="email" class="form-control" id="myEmail" placeholder="E-mail">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-container">
+                        <i class="fa fa-lock icon"></i>
+                        <input type="password" class="form-control" id="myPassword" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                        <label class="custom-control-label" for="defaultUnchecked">Remember me</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-primary btn-block">LOG IN</button>
+                <div class="special-words">
+                    <a class="text" href="#">Forgot password?</a>
+                    <a class="text1" href="#">Don't have an account?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!-- JavaScript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/sessions.js"></script>
+
+</body>
+</html>
