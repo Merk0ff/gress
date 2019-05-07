@@ -7,9 +7,11 @@ $(document).ready(function(){
         * Perform some validation here.
         */
         $.post("/login",{email:email,pass:pass},function(data){
-            windows.alert('Im here!');
+            windows.alert('Im here!'); // need to rewrite
             if(data==='done') {
-                window.location.href="/admin";
+                //just example
+                //window.location.href="/admin";
+                windows.alert('Done');
             }
         });
     });
