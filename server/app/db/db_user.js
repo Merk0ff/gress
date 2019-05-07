@@ -20,15 +20,16 @@
  */
 
 /**
- * Object User {
- *  @var (string(id)) _id
- *  @var (string) user_fullname
- *  @var unique(string) user_login
- *  @var (string) user_password
- *  @var (int) user_type [1-10]
- *  @var (string) user_info
- *  @var (string(id)[]) user_projectOwn
- *  @var (string(id)[]) user_projectJoin
+ *  Object User {
+ *  @var {string(id)} id
+ *  @var {string} user_fullname
+ *  @var {string} user_login (unique)
+ *  @var {string} user_password
+ *  @var {int} user_type [1-10]
+ *  @var {string|null} user_info
+ *  @var {array {string(id)}} user_projectOwn
+ *  @var {array {string(id}}) user_projectJoin
+ *  @var {string|null} user_avatar_url
  * }
  */
 

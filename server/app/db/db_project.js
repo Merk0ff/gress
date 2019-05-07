@@ -19,6 +19,22 @@
  * @author Dmitriy Vikhlyaev
  */
 
+/**
+ *  Object User {
+ *  @var {string(id)} id
+ *  @var {string} project_title
+ *  @var {string} project_info
+ *  @var {string(id)} project_author
+ *  @var {array {Object}} project_media {
+ *    @var {string} media_type
+ *    @var {string} media_title
+ *    @var {string} media_url
+ *  }
+ *  @var {array {string(id)}} project_users
+ *  @var {int} project_status [1-10]
+ * }
+ */
+
 const Service = require('./db_service');
 const table = 'project';
 
@@ -36,6 +52,22 @@ exports.getProject = function(index = null, callback) {
           callback(results[index]);
         }
       });
+};
+
+/**
+ * Get projects count
+ * @param {function} callback(result) Return Project|Array
+ */
+exports.getProject = function(callback) {
+  Service.getCollection(
+
+    function(results) {
+      if (index === null) {
+        callback(results);
+      } else {
+        callback(results[index]);
+      }
+    });
 };
 
 /**
