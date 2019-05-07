@@ -59,4 +59,13 @@ module.exports=function(App) {
     EndlessScroll.sendJSON(res, parseInt(req.body.offset));
     console.log('json sent');
   });
+  
+  /**
+     * testing login post request
+     */
+    App.post('/login',function(req,res) {
+        console.log('post captured');
+        console.log(req.body.email);
+        console.log(req.body.pass);
+    });
 };
