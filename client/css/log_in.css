@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD
 a:focus, a:hover {
     text-decoration: none !important;
     outline: 0;
@@ -76,7 +75,7 @@ a {
     min-width: 40px;
     text-align: center;
     border-radius: 4px 0 0 4px;
-=======
+
  a:focus, a:hover {
   text-decoration: none !important; 
   outline: 0;
@@ -153,6 +152,5 @@ a {
   min-width: 40px;
   text-align: center;
   border-radius:4px 0 0 4px;
->>>>>>> origin/ksegolu
 }
 
