@@ -18,67 +18,38 @@
 /**
  * @author Dmitriy Vikhlyaev
 */
-const Project = require('../db/db_project');
-const User = require('../db/db_user');
 
+/**
+ *
+ * @param {RegExp} app
+ */
 module.exports = function(app) {
-  app.get('/projects', (req, res) => {
-    Project.getProject( null, function(err, result) {
-      res.send(result);
-    });
-  });
+  /**
+   * Пример маршрута для загрузки файлов на сервер
+   */
+  // библиотеки
+  const File = require('../data/file_manager');
 
-  app.get('/project', (req, res) => {
-    Project.getProject(0, function(err, result) {
-      res.send(result);
-    });
-  });
-
-  app.post('/project1', (req, res) => {
-    const ObjectId = require('mongodb').ObjectId;
-    const pr = {
-      project_title: 'test',
-      project_info: 'infooooooo',
-      project_author: new ObjectId(),
-      project_media: [],
-      project_users: [],
-      project_status: 1,
-    };
-    Project.addProject(pr, function(err, result) {
-      res.send(result);
-    });
-  });
-
-  app.post('/project2', (req, res) => {
-    Project.addProject({name: 'dfagt'}, function(err, result) {
-      res.send(result);
-    });
-  });
-
-  app.get('/users', (req, res) => {
-    User.getAllUsers( function(err, result) {
-      res.send(result);
-    });
-  });
-
-  app.post('/users', (req, res) => {
-    const user = {
-      user_fullname: 'dima',
-      user_login: 'dim',
-      user_password: '12345',
-      user_type: 1,
-      user_info: 'sdafsaf',
-      user_projectOwn: ['5cbe090cfa03ff263c1f4721'],
-      user_projectJoin: [],
-    };
-    User.addUser(user, function(err, result) {
-      res.send(result);
-    });
-  });
-
-  app.get('/test', (req, res) => {
-    User.checkUser('5cbc8d8fa34f071fe8c0c5f1', function(err, result) {
-      res.send(result);
+  // принято методом PUT загружать
+  // в хэдере запроса ставим multipart/form-data
+  app.put('/file', (req, res) => {
+    // принимаем файлы
+    // директория должна существовать
+    // имя идет из формы запроса
+    File.upload(
+        File.DIR.USER_AVATAR,
+        'qwe',
+        File.TYPE.ARRAY,
+        10
+    )(req, res, function(err) {
+      if (err) {
+        res.send(null);
+        return console.log(err);
+      }
+      // получаем информацию по загруженным файлам
+      File.filesInfo(req, res, function(result) {
+        res.send(result);
+      });
     });
   });
 };
