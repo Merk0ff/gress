@@ -28,12 +28,8 @@ $(document).ready(function(){
         }); */
 
         $.post("/login",{email:email,pass:pass},function(data){
-            window.alert('Im here!'); // line for debug
-            if(data==='done') {
-                //just example
-                //window.location.href="/admin";
-                window.alert('Done');
-            }
+            window.alert(data); // line for debug
+            ('.username').append(data);
         });
     });
 });
