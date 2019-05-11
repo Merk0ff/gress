@@ -17,12 +17,19 @@
 
 /**
  * @fileoverview Main server file
- * @author Philip Dukshtau
+ * @author Philip Dukshtau, Dmitriy Vikhlyaev
  */
 
 
 /** @const {!server} A server handle module. */
 const Server = require('./httpserver_handle/httpserver_handle');
+
+/** @const {routes} Routes */
+const noteRoutes = require('./app/routes/routes');
+
+module.exports = function(App, db) {
+  noteRoutes(App, db);
+};
 
 /**
  * Main function of server side
