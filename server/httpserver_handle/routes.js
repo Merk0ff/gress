@@ -17,7 +17,7 @@
 
 /**
  * @fileoverview Endless scroll handle.
- * @author Philip Dukshtau, Dmitry Varlamov
+ * @author Philip Dukshtau, Dmitry Varlamov, Dmitriy Vikhlyaev
  */
 
 /** @const @private Express module. */
@@ -30,7 +30,10 @@ const sendFile = require('./sendFile');
 const EndlessScroll = require('./endlessScroll');
 
 
-module.exports=function(App) {
+module.exports = function(App) {
+  // Lib for file uploading
+  const File = require('../app/data/file_manager');
+
   // Parse URL-encoded bodies (as sent by HTML forms)
   App.use(Exp.urlencoded());
 
@@ -49,6 +52,32 @@ module.exports=function(App) {
    */
   App.use(Exp.static('./client'));
 
+
+  /**
+   * Example of file upload
+   */
+  // Put method for upload
+  // In header multipart/form-data
+  App.put('../app/data/file', (req, res) => {
+    // Stage uploading file
+    // Directory should exists
+    // ? имя идет из формы запроса ?
+    File.upload(
+        File.DIR.USER_AVATAR,
+        'qwe',
+        File.TYPE.ARRAY,
+        10
+    )(req, res, function(err) {
+      if (err) {
+        res.send(null);
+        return console.log(err);
+      }
+      // получаем информацию по загруженным файлам
+      File.filesInfo(req, res, function(result) {
+        res.send(result);
+      });
+    });
+  });
 
   /**
    * this request is needed for infinite scroll
