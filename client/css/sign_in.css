@@ -1,0 +1,26 @@
+.form-horizontal{
+    background: #ffffff;
+    border-radius: 10px;
+    border-style: solid;
+    border-color:#babab5;
+    padding: 10px;
+}
+
+.form-horizontal .header1{
+    display: block;
+    font-size: 35px;
+    font-weight: 700;
+    padding: 35px 0;
+    border-bottom: 2px solid #babab5;
+    margin-bottom: 30px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.imag {
+    width: 25%;
+    height: 25%;
+}
+
+
