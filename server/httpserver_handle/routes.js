@@ -115,4 +115,11 @@ module.exports=function(App) {
         req.session.email=req.body.email;
         res.end(req.body.email);
     });
+    
+    App.post('/signup', function(req, res) {
+    console.log('signup post captured');
+    console.log(req.body.email);
+    console.log(req.body.pass);
+    res.end('signup captured');
+  });
 };
