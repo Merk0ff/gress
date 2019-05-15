@@ -27,6 +27,12 @@ const Exp = require('express');
 /** @const @private Express app. */
 const App = new Exp();
 
+/** @const @private BodyParser bodyParser */
+const BodyParser = require('body-parser');
+
+/** @const @privat Db database */
+const Db = require('../config/db');
+
 
 /**
  * Set up the Server
