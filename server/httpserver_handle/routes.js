@@ -32,8 +32,12 @@ const sendFile = require('./sendFile');
 /** @const @private Endless scroll unit. */
 const EndlessScroll = require('./endlessScroll');
 
+const SessSys=require('./SessionSystem');
+
 
 module.exports=function(App) {
+  const File = require('../app/data/file_manager');
+    
   /**
   Global session, yet without session storage
    */
@@ -112,14 +116,32 @@ module.exports=function(App) {
         console.log('post captured');
         console.log(req.body.email);
         console.log(req.body.pass);
-        req.session.email=req.body.email;
-        res.end(req.body.email);
+        if (SessSys.checkUser(req) == true) {
+          console.log('Successful log in');
+          req.session.email = req.body.email;
+          res.end(req.body.email);
+        } else {
+          res.end('Error with login');
+        }
     });
     
     App.post('/signup', function(req, res) {
     console.log('signup post captured');
     console.log(req.body.email);
     console.log(req.body.pass);
+    console.log(req.body.name);
+    console.log(req.body.surname);
+    console.log(req.body.investor);
+    console.log(req.body.phone);
+    console.log(req.body.education);
+    console.log(req.body.links);
+    if (SessSys.addUser(req) == true) {
+      console.log('Successful registration');
+      req.session.email = req.body.email;
+      res.end(req.body.email);
+    } else {
+      res.end('Error with signup');
+    }
     res.end('signup captured');
   });
 };
