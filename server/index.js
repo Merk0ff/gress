@@ -24,6 +24,10 @@
 /** @const {!server} A server handle module. */
 const Server = require('./httpserver_handle/httpserver_handle');
 
+module.exports = function(App, db) {
+  noteRoutes(App, db);
+};
+
 /**
  * Main function of server side
  */
