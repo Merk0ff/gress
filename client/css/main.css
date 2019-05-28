@@ -46,6 +46,11 @@ a, a:focus, a:hover {
 
 }
 
+/*.navNav {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}*/
+
 .navbar-nav a:hover {
     color: #bdbdbd; /*цвет подсветки букв при наведении курсора - серый*/
 }
