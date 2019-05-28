@@ -16,31 +16,26 @@
  */
 
 /**
- * @fileoverview Main server file
- * @author Philip Dukshtau
+ * @fileoverview Endless scroll handle.
+ * @author Philip Dukshtau, Dmitry Varlamov
  */
 
-
-/** @const {!server} A server handle module. */
-const Server = require('./httpserver_handle/httpserver_handle');
-
-module.exports = function(App, db) {
-  noteRoutes(App, db);
-};
+/** @const @private A file system handle module. */
+const Fs = require('fs');
 
 /**
- * Main function of server side
+ * Send file to client function
+ * @param {Object} res A response param.
+ * @param {Object} path Path to file.
  */
-function main() {
-  Server.setUp();
-
-  process.openStdin().addListener('data', function(d) {
-    if (d.toString() === 'stop\n') {
-      process.exit();
+module.exports=function sendFile(res, path) {
+  Fs.readFile(path, function(err, data) {
+    if (err) {
+      res.writeHead(500);
+      return res.end('Error loading ' + path);
     }
-  });
-}
 
-if (require.main === module) {
-  main();
-}
+    res.writeHead(200);
+    res.end(data);
+  });
+};

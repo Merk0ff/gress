@@ -17,7 +17,7 @@
 
 /**
  * @fileoverview Http server handle
- * @author Philip Dukshtau, Dmitri Vikhlyaev
+ * @author Philip Dukshtau, Dmitri Vikhlyaev, Dmitry Varlamov
  */
 
 /** @const @private A file system handle module. */
@@ -35,45 +35,14 @@ const BodyParser = require('body-parser');
 /** @const @privat Db database */
 const Db = require('../config/db');
 
-/**
- * Send file to client function
- * @param {Object} res A response param.
- * @param {Object} path Path to file.
- */
-function sendFile(res, path) {
-  Fs.readFile(__dirname + '/../../client' + path,
-      function(err, data) {
-        if (err) {
-          res.writeHead(500);
-          return res.end('Error loading ' + path);
-        }
-
-        res.writeHead(200);
-        res.end(data);
-      });
-}
-
-/**
- * Server handle function.
- */
-function serverHandler() {
-  App.get('/', function(req, res) {
-    sendFile(res, '/index.html');
-    console.log('sombody once told me');
-  });
-
-  App.get('/robots.txt', function(req, res) {
-    sendFile(res, '/robots.txt');
-  });
-}
 
 /**
  * Set up the Server
  * @param {int} port Server port.
  */
 exports.setUp = function(port = 3000) {
-  serverHandler();
-  require('../app/routes/routes')(App);
+  require('./routes')(App);
+
   App.listen(port, function() {
     console.log('listening on *:' + port);
   });
