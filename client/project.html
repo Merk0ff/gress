@@ -38,10 +38,12 @@
         <!--End of Brand-->
 
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class=" navbar-nav ml-auto">
+            <ul class=" navbar-nav ml-auto" id="navbarbuttons">
                 <li class="nav-item"><a href="">projects</a></li>
-                <li class="nav-item"><a href="sign_in.html">sign in</a></li>
-                <li class="nav-item"><a href="log_in.html">log in</a></li>
+                <li class="nav-item"><a href="sign_in.html" name="navUnlogined">sign in</a></li>
+                <li class="nav-item"><a href="log_in.html" name="navUnlogined">log in</a></li>
+                <li class="nav-item"><a name="navLogined" id="navUserName"></a></li>
+                <li class="nav-item"><a href="logout" name="navLogined" id="logout">log out</a></li>
             </ul>
         </div>
     </div>
@@ -75,103 +77,103 @@
         <div class="col-lg-9 col-sm-12">
             <div class="row project">
 
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img class="card-img-top" src="img/011.jpg" alt="First Project Image">
-                        <div class="card-body">
-                            <h4 class="card-title text-uppercase ">Galaxian game</h4>
-                            <p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the
-                                earlier game, Galaxian features a horde of attacking aliens.</p>
-                            <a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">IT</span>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-lg-3 col-md-4 col-sm-12">-->
+                    <!--<div class="card">-->
+                        <!--<img class="card-img-top" src="img/011.jpg" alt="First Project Image">-->
+                        <!--<div class="card-body">-->
+                            <!--<h4 class="card-title text-uppercase ">Galaxian game</h4>-->
+                            <!--<p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the-->
+                                <!--earlier game, Galaxian features a horde of attacking aliens.</p>-->
+                            <!--<a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">IT</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img class="card-img-top" src="img/05.jpg" alt="First Project Image">
-                        <div class="card-body">
-                            <h4 class="card-title text-uppercase ">Galaxian game</h4>
-                            <p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the
-                                earlier game, Galaxian features a horde of attacking aliens.</p>
-                            <a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">Art</span>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-lg-3 col-md-4 col-sm-12">-->
+                    <!--<div class="card">-->
+                        <!--<img class="card-img-top" src="img/05.jpg" alt="First Project Image">-->
+                        <!--<div class="card-body">-->
+                            <!--<h4 class="card-title text-uppercase ">Galaxian game</h4>-->
+                            <!--<p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the-->
+                                <!--earlier game, Galaxian features a horde of attacking aliens.</p>-->
+                            <!--<a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">Art</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img class="card-img-top" src="img/011.jpg" alt="First Project Image">
-                        <div class="card-body">
-                            <h4 class="card-title text-uppercase ">Galaxian game</h4>
-                            <p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the
-                                earlier game, Galaxian features a horde of attacking aliens.</p>
-                            <a class="link " href="DescriptionOfTheProject.html">Read More</a> <span
-                                class="text-uppercase float-right ">Social</span>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-lg-3 col-md-4 col-sm-12">-->
+                    <!--<div class="card">-->
+                        <!--<img class="card-img-top" src="img/011.jpg" alt="First Project Image">-->
+                        <!--<div class="card-body">-->
+                            <!--<h4 class="card-title text-uppercase ">Galaxian game</h4>-->
+                            <!--<p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the-->
+                                <!--earlier game, Galaxian features a horde of attacking aliens.</p>-->
+                            <!--<a class="link " href="DescriptionOfTheProject.html">Read More</a> <span-->
+                                <!--class="text-uppercase float-right ">Social</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img class="card-img-top" src="img/05.jpg" alt="First Project Image">
-                        <div class="card-body">
-                            <h4 class="card-title text-uppercase ">Galaxian game</h4>
-                            <p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the
-                                earlier game, Galaxian features a horde of attacking aliens.</p>
-                            <a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">IT</span>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-lg-3 col-md-4 col-sm-12">-->
+                    <!--<div class="card">-->
+                        <!--<img class="card-img-top" src="img/05.jpg" alt="First Project Image">-->
+                        <!--<div class="card-body">-->
+                            <!--<h4 class="card-title text-uppercase ">Galaxian game</h4>-->
+                            <!--<p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the-->
+                                <!--earlier game, Galaxian features a horde of attacking aliens.</p>-->
+                            <!--<a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">IT</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img class="card-img-top" src="img/011.jpg" alt="First Project Image">
-                        <div class="card-body">
-                            <h4 class="card-title text-uppercase ">Galaxian game</h4>
-                            <p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the
-                                earlier game, Galaxian features a horde of attacking aliens.</p>
-                            <a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">IT</span>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-lg-3 col-md-4 col-sm-12">-->
+                    <!--<div class="card">-->
+                        <!--<img class="card-img-top" src="img/011.jpg" alt="First Project Image">-->
+                        <!--<div class="card-body">-->
+                            <!--<h4 class="card-title text-uppercase ">Galaxian game</h4>-->
+                            <!--<p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the-->
+                                <!--earlier game, Galaxian features a horde of attacking aliens.</p>-->
+                            <!--<a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">IT</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img class="card-img-top" src="img/05.jpg" alt="First Project Image">
-                        <div class="card-body">
-                            <h4 class="card-title text-uppercase ">Galaxian game</h4>
-                            <p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the
-                                earlier game, Galaxian features a horde of attacking aliens.</p>
-                            <a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">Art</span>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-lg-3 col-md-4 col-sm-12">-->
+                    <!--<div class="card">-->
+                        <!--<img class="card-img-top" src="img/05.jpg" alt="First Project Image">-->
+                        <!--<div class="card-body">-->
+                            <!--<h4 class="card-title text-uppercase ">Galaxian game</h4>-->
+                            <!--<p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the-->
+                                <!--earlier game, Galaxian features a horde of attacking aliens.</p>-->
+                            <!--<a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">Art</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img class="card-img-top" src="img/011.jpg" alt="First Project Image">
-                        <div class="card-body">
-                            <h4 class="card-title text-uppercase ">Galaxian game</h4>
-                            <p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the
-                                earlier game, Galaxian features a horde of attacking aliens.</p>
-                            <a class="link " href="DescriptionOfTheProject.html">Read More</a> <span
-                                class="text-uppercase float-right ">Social</span>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-lg-3 col-md-4 col-sm-12">-->
+                    <!--<div class="card">-->
+                        <!--<img class="card-img-top" src="img/011.jpg" alt="First Project Image">-->
+                        <!--<div class="card-body">-->
+                            <!--<h4 class="card-title text-uppercase ">Galaxian game</h4>-->
+                            <!--<p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the-->
+                                <!--earlier game, Galaxian features a horde of attacking aliens.</p>-->
+                            <!--<a class="link " href="DescriptionOfTheProject.html">Read More</a> <span-->
+                                <!--class="text-uppercase float-right ">Social</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img class="card-img-top" src="img/05.jpg" alt="First Project Image">
-                        <div class="card-body">
-                            <h4 class="card-title text-uppercase ">Galaxian game</h4>
-                            <p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the
-                                earlier game, Galaxian features a horde of attacking aliens.</p>
-                            <a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">IT</span>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-lg-3 col-md-4 col-sm-12">-->
+                    <!--<div class="card">-->
+                        <!--<img class="card-img-top" src="img/05.jpg" alt="First Project Image">-->
+                        <!--<div class="card-body">-->
+                            <!--<h4 class="card-title text-uppercase ">Galaxian game</h4>-->
+                            <!--<p class="card-text">Galaxian expanded on the formula pioneered by Space Invaders. As in the-->
+                                <!--earlier game, Galaxian features a horde of attacking aliens.</p>-->
+                            <!--<a class="link " href="DescriptionOfTheProject.html">Read More</a> <span class="text-uppercase float-right ">IT</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
 
             </div> <!-- end row -->
@@ -198,6 +200,16 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/endlessScroll.js"></script>
-
+<script src="js/logout.js"></script>
+<script>
+    if(localStorage.getItem('user') != null){
+      $("[name='navUnlogined']").hide();
+      $("[name='navLogined']").show();
+      $('#navUserName').html('<a>'+JSON.parse(localStorage.getItem('user')).fullname+'</a>');
+    } else{
+      $("[name='navUnlogined']").show();
+      $("[name='navLogined']").hide();
+    }
+</script>
 </body>
 </html>

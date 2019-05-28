@@ -59,12 +59,14 @@ const getCollection = async function(
     limit = 0
 ) {
   try {
-    return await db.
+    const t = await db.
         collection(table).
         find(filter).
         skip(since).
         limit(limit).
         toArray();
+    console.log(t);
+    return t;
   } catch (e) {
     console.trace(e);
     return null;

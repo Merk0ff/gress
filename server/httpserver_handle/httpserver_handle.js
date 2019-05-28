@@ -42,7 +42,7 @@ const Db = require('../config/db');
  */
 exports.setUp = function(port = 3000) {
   require('./routes')(App);
-
+  require('../app/routes/routes')(App);
   App.listen(port, function() {
     console.log('listening on *:' + port);
   });

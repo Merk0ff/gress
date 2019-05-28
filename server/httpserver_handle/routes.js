@@ -57,12 +57,19 @@ module.exports=function(App) {
   Prejects page
   */
   App.get('/', function(req, res) {
-    if (req.session.email) {
-      res.redirect('/registered');
-    } else {
-      sendFile(res, './client/project.html');
-      console.log('user came');
-    }
+    // if (req.session.email) {
+    //   res.redirect('/registered');
+    // } else {
+    sendFile(res, './client/project.html');
+    console.log('user came');
+    // }
+  });
+
+  App.param(['file'], function(req, res, next, value) {
+    sendFile(res, 'server/app/data/files/project/'+value);
+    next();
+  });
+  App.get('/files/project/:file', function(req, res) {
   });
 
   /**
@@ -112,20 +119,21 @@ module.exports=function(App) {
   /**
      * login post request
      */
-  App.post('/login', function(req, res) {
+  App.post('/login', async function(req, res) {
     console.log('post captured');
     console.log(req.body.email);
     console.log(req.body.pass);
-    if (SessSys.checkUser(req) == true) {
+    const result = await SessSys.checkUser(req);
+    if (result) {
       console.log('Successful log in');
       req.session.email = req.body.email;
-      res.end(req.body.email);
+      res.json(result);
     } else {
-      res.end('Error with login');
+      res.end('');
     }
   });
 
-  App.post('/signup', function(req, res) {
+  App.post('/signup', async function(req, res) {
     console.log('signup post captured');
     console.log(req.body.email);
     console.log(req.body.pass);
@@ -135,13 +143,13 @@ module.exports=function(App) {
     console.log(req.body.phone);
     console.log(req.body.education);
     console.log(req.body.links);
-    if (SessSys.addUser(req) == true) {
+    const result = await SessSys.addUser(req);
+    if (result) {
       console.log('Successful registration');
       req.session.email = req.body.email;
-      res.end(req.body.email);
+      res.json(result);
     } else {
-      res.end('Error with signup');
+      res.end('');
     }
-    res.end('signup captured');
   });
 };

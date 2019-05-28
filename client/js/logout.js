@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $('#logout').click(function() {
-    $.get('/logout');
+    localStorage.clear();
+    window.location.href = '/logout';
   });
 });

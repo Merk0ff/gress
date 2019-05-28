@@ -27,7 +27,11 @@ exports.checkUser = async function(req) {
   if (result!=null) {
     console.log(result);
     console.log('found user');
-    return true;
+    return {
+      id: result[0]._id.toString(),
+      email: result[0].user_login,
+      fullname: result[0].user_fullname,
+    };
   } else {
     return false;
   }
@@ -38,14 +42,21 @@ exports.addUser= async function(req) {
     user_login: req.body.email,
     user_fullname: String(req.body.name)+' '+String(req.body.surname),
     user_password: req.body.pass,
-    _id: Math.random(),
+    user_type: req.body.investor == 'false'? 1: 2,
+    user_info: req.body.links,
+    user_projectJoin: [],
+    user_projectOwn: [],
   };
 
   const result = await UserDB.addUser(user);
   if (result!=null) {
     console.log(result);
     console.log(' registered user');
-    return true;
+    return {
+      id: result.insertedId.toString(),
+      email: user.user_login,
+      fullname: user.user_fullname,
+    };
   } else {
     console.log('did not register user');
     return false;

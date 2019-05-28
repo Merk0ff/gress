@@ -24,11 +24,22 @@ jQuery(document).ready(function($) {
       startLoading();
     }
   });
+  $.ajax({
+    type: 'POST',
+    url: '/package.json',
+    data: {offset: Offset},
+    success: function(jsonPackage) {
+      stopLoading();
+      setToPage(jsonPackage);
+    },
+  });
+
+  startLoading();
 
   const layout =
-    `<div class="col-lg-3 col-md-4 col-sm-12">
+    `<div class="col-lg-6 col-md-6 col-sm-6">
           <div class="card">
-              <img class="card-img-top projectImage">
+              <img class="card-img-top projectImage" src = "files/project/1559083366870_be10fe2ea.png">
               <div class="card-body">
                   <h4 class="card-title text-uppercase projectTitle">
                     Sometitle

@@ -48,7 +48,8 @@ const table = 'user';
  * @return {Array|null}
  */
 const getUser = async function(filter = {}, since = 0, limit = 0) {
-  return await Service.getCollection(table, filter, since, limit);
+  const t = await Service.getCollection(table, filter, since, limit);
+  return t;
 };
 
 /**
@@ -67,7 +68,8 @@ const checkUser = async function(id) {
  * @return {boolean|null}
  */
 const checkUserByLogin = async function(login) {
-  return await getUser({user_login: login}, 0, 1);
+  const t = await getUser({user_login: login}, 0, 1);
+  return t;
 };
 
 /**
@@ -141,7 +143,8 @@ const getUserById = async function(id) {
  */
 const addUser = async function(newUser) {
   if ('user_login' in newUser) {
-    if (!await checkUserByLogin(newUser.user_login)) {
+    const t = await checkUserByLogin(newUser.user_login);
+    if (t.length == 0) {
       if (await checkObjectId(newUser)) {
         return await Service.addItemCollection(table, newUser);
       }

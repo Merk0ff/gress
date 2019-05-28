@@ -16,7 +16,7 @@ $(document).ready(function() {
   let links;
 
   $('#submit').click(function() {
-    investorBool = $('#InvestorBlock').val(); // Dunno is it gonna work
+    investorBool = $('#InvestorBlock').is(':checked'); // Dunno is it gonna work
     firstName = $('#FirstNameBlock').val();
     lastName = $('#LastNameBlock').val();
     email = $('#EmailBlock').val();
@@ -34,10 +34,13 @@ $(document).ready(function() {
         links: links},
       success: function(data) {
         window.alert('Im here!'); // need to rewrite
-        if (data==='done') {
+        if (data != '') {
           // just example
-          // window.location.href="/admin";
-          window.alert('Done');
+          localStorage.setItem('user', JSON.stringify(data));
+          window.location.href = '/';
+        } else {
+          localStorage.setItem('user', JSON.stringify(''));
+          alert('Sign in error');
         }
       },
     });
