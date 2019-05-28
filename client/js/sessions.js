@@ -6,14 +6,14 @@
  *
  * @param {Object} jQuery. -- ???
  */
-$(document).ready(function(){
-    var email,pass;
-    $("#submit").click(function(){
-        console.log('Enter submit');
-        email=$("#myEmail").val();
-        pass=$("#myPassword").val();
+$(document).ready(function() {
+  let email; let pass;
+  $('#submit').click(function() {
+    console.log('Enter submit');
+    email=$('#myEmail').val();
+    pass=$('#myPassword').val();
 
-        /*$.ajax({
+    /* $.ajax({
             type: 'POST',
             url: '/login',
             data: {email:email, pass:pass},
@@ -27,9 +27,9 @@ $(document).ready(function(){
             },
         }); */
 
-        $.post("/login",{email:email,pass:pass},function(data){
-            window.alert(data); // line for debug
-            ('.username').append(data);
-        });
+    $.post('/login', {email: email, pass: pass}, function(data) {
+      window.alert(data); // line for debug
+      ('.username').append(data);
     });
+  });
 });

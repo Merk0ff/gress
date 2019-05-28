@@ -28,9 +28,9 @@
  * @param {int} offset offset
  */
 exports.sendJSON = function(res, offset) {
-  let pckg = {
+  const pckg = {
     count: 5,
-    projects: []
+    projects: [],
   };
 
   for (let i = offset; i < offset + 5; i++) {
@@ -39,7 +39,7 @@ exports.sendJSON = function(res, offset) {
       description: 'description' + String(i),
       url: 'url' + String(i),
       tag: 'tag' + String(i),
-      img: 'picture' + String(i)
+      img: 'picture' + String(i),
     });
   }
 

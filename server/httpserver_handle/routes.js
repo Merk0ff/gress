@@ -37,16 +37,16 @@ const SessSys=require('./SessionSystem');
 
 module.exports=function(App) {
   const File = require('../app/data/file_manager');
-    
+
   /**
   Global session, yet without session storage
    */
   App.use( session({
     secret: 'secret',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   }));
-  
+
   // Parse URL-encoded bodies (as sent by HTML forms)
   App.use(Exp.urlencoded());
 
@@ -64,7 +64,7 @@ module.exports=function(App) {
       console.log('user came');
     }
   });
-  
+
   /**
   Projects page for registered user
   */
@@ -76,12 +76,12 @@ module.exports=function(App) {
       res.write('<h1>Please login first.</h1>');
     }
   });
-  
+
   /**
   Logging out
  */
-  App.get('/logout', function (req, res) {
-    req.session.destroy(function (err) {
+  App.get('/logout', function(req, res) {
+    req.session.destroy(function(err) {
       if (err) {
         console.log(err);
       } else {
@@ -108,24 +108,24 @@ module.exports=function(App) {
     EndlessScroll.sendJSON(res, parseInt(req.body.offset));
     console.log('json sent');
   });
-  
+
   /**
      * login post request
      */
-    App.post('/login',function(req,res) {
-        console.log('post captured');
-        console.log(req.body.email);
-        console.log(req.body.pass);
-        if (SessSys.checkUser(req) == true) {
-          console.log('Successful log in');
-          req.session.email = req.body.email;
-          res.end(req.body.email);
-        } else {
-          res.end('Error with login');
-        }
-    });
-    
-    App.post('/signup', function(req, res) {
+  App.post('/login', function(req, res) {
+    console.log('post captured');
+    console.log(req.body.email);
+    console.log(req.body.pass);
+    if (SessSys.checkUser(req) == true) {
+      console.log('Successful log in');
+      req.session.email = req.body.email;
+      res.end(req.body.email);
+    } else {
+      res.end('Error with login');
+    }
+  });
+
+  App.post('/signup', function(req, res) {
     console.log('signup post captured');
     console.log(req.body.email);
     console.log(req.body.pass);

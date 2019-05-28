@@ -1,14 +1,20 @@
 function ShowByClickOn(cb, ct) {
-    if ($('#'+cb).prop("checked")) $('#'+ct).show();
-    else $('#'+ct).hide();
+  if ($('#'+cb).prop('checked')) $('#'+ct).show();
+  else $('#'+ct).hide();
 }
 
+/**
+ *
+ * @param cb
+ * @param ct
+ * @constructor
+ */
 function HideByClickOn(cb, ct) {
-    if ($('#'+cb).prop("checked")) $('#'+ct).hide();
-    else $('#'+ct).show();
+  if ($('#'+cb).prop('checked')) $('#'+ct).hide();
+  else $('#'+ct).show();
 }
 
-/*$(function(){
+/* $(function(){
     $("#InvestorBlock").on("click", function(){
         $("#StuButtons").hide();
     });

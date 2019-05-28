@@ -113,11 +113,11 @@ const getCountCollection = async function(table, filter = {}) {
  */
 const checkItem = async function(table, id) {
   try {
-    return (!!await db.
+    return (await db.
         collection(table).
         find({_id: id}, {_id: 1}).
         limit(1).
-        count()
+        count() !== []
     );
   } catch (e) {
     console.trace(e);

@@ -1,5 +1,5 @@
-$(document).ready(function(){
-    $("#logout").click(function(){
-        $.get("/logout");
-    });
+$(document).ready(function() {
+  $('#logout').click(function() {
+    $.get('/logout');
+  });
 });
