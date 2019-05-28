@@ -1,0 +1,125 @@
+
+body {
+    /*grey color*/
+    color: #777777;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.625;
+    position: relative;
+}
+
+
+ol, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+
+a, a:focus, a:hover {
+    text-decoration: none;
+    outline: 0;
+    color: #bdbdbd;       /*цвет подсветки букв при наведении курсора - серый*/
+}
+
+@media (max-width: 992px) {
+    .navbar-nav {
+        height: auto;
+        max-height: 400px;
+        overflow-x: hidden;
+    }
+}
+
+.navbar-nav a {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #000;
+    padding: 20px;
+
+}
+
+.navbar-nav a:hover {
+    color: #bdbdbd; /*цвет подсветки букв при наведении курсора - серый*/
+}
+
+@media (max-width: 992px) {
+    .navbar-nav {
+        margin-top: 10px;
+    }
+    .navbar-nav a {
+        padding: 0;
+    }
+    .navbar-nav li {
+        padding: 15px 0;
+    }
+}
+
+.navNav {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.add-a-project {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #000;
+    padding: 20px;
+}
+
+.default-header {
+    background-color: #fff;
+    box-shadow: -21.213px 21.213px 30px 0px rgba(158, 158, 158, 0.3);
+}
+
+.str {
+    color: black;
+    font-weight: 300;
+}
+
+.mt-10{
+    margin-top: 15rem;
+}
+
+.footer{
+    position: relative;
+    margin-top: -150px; /* negative value of footer height */
+    height: 150px;
+    clear:both;
+}
+
+.font-15{
+    font-size: 1.5rem;
+}
+
+.NextButton{
+    background: #b5b5b5;
+    color:white;
+    border-radius: 0.2rem;
+    margin-top: 1rem;
+    outline: none !important;
+}
+
+.NextButton:focus, .NextButton.focus{
+    box-shadow: none;
+}
+
+.CategorySelect{
+    border-color: black;
+}
+
+.CategorySelect:focus, .CategorySelect.focus{
+    box-shadow: none;
+    border-color: black;
+}
+
+option:not(:checked) {
+    background-color: #FFF;
+}

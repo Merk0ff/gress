@@ -47,7 +47,7 @@ a, a:focus, a:hover {
 }
 
 .navbar-nav a:hover {
-  color: #bdbdbd;       /*цвет подсветки букв при наведении курсора - серый*/
+    color: #bdbdbd; /*цвет подсветки букв при наведении курсора - серый*/
 }
 
 @media (max-width: 992px) {
@@ -68,7 +68,17 @@ a, a:focus, a:hover {
   box-shadow: -21.213px 21.213px 30px 0px rgba(158, 158, 158, 0.3);
 }
 
+.navNav {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
 
+.add-a-project {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #000;
+    padding: 20px;
+}
 .mb-6 {
   margin-bottom: 4rem !important;
 }
@@ -96,19 +106,9 @@ a, a:focus, a:hover {
 }
 
 @media (min-width: 768px) {
-  .dropdown .dropdown-menu {
-    display: block;
-    opacity: 0;
-    -webkit-transition: all 200ms ease-in;
-    -moz-transition: all 200ms ease-in;
-    -ms-transition: all 200ms ease-in;
-    -o-transition: all 200ms ease-in;
-    transition: all 200ms ease-in;
-  }
-  .dropdown:hover .dropdown-menu {
-    display: block;
-    opacity: 1;
-  }
+    .butDropDown {
+        margin-top: 1rem;
+    }
 }
 
 .dropdown-menu {
@@ -116,6 +116,7 @@ a, a:focus, a:hover {
   margin-top: 15px;
   /*border-top: none;*/
   min-width:164px;
+
 }
 
 .dropdown-menu a {
@@ -128,17 +129,17 @@ a, a:focus, a:hover {
   }
 }
 
-.dropdown-item:focus, .dropdown-item:hover {
+/*.dropdown-item:focus, .dropdown-item:hover {
   color: #16181b;
   text-decoration: none;
   background-color: transparent;
-}
+}*/
 
 .dropdown-toggle {
-	color: #000000;
-	font-size: 15px;
-	padding: 10px;
-	box-shadow: 0 0 10px rgba(176, 176, 176, 1);
+    color: #000000;
+    font-size: 15px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(176, 176, 176, 1);
 
 }
 
