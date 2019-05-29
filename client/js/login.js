@@ -14,7 +14,6 @@ $(document).ready(function() {
           localStorage.setItem('user', JSON.stringify(data));
           window.location.href = '/';
         } else {
-          localStorage.setItem('user', JSON.stringify(''));
           alert('Log in error');
         }
       },

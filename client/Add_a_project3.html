@@ -29,7 +29,7 @@
 <nav class="navbar navbar-expand-sm navbar-light fixed-top default-header navNav">
     <div class="container-fluid">
 
-        <a href="Add_a_project.html" class="add-a-project">Add a project</a>
+        <a href="Add_a_project.html" class="add-a-project" name="navLogined">Add a project</a>
 
         <!--Brand-->
         <a href="#" class="navbar-brand">
@@ -38,10 +38,12 @@
         <!--End of Brand-->
 
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class=" navbar-nav ml-auto">
+            <ul class=" navbar-nav ml-auto" id="navbarbuttons">
                 <li class="nav-item"><a href="project.html">projects</a></li>
-                <li class="nav-item"><a href="sign_in.html">sign in</a></li>
-                <li class="nav-item"><a href="log_in.html">log in</a></li>
+                <li class="nav-item"><a href="sign_in.html" name="navUnlogined">sign in</a></li>
+                <li class="nav-item"><a href="log_in.html" name="navUnlogined">log in</a></li>
+                <li class="nav-item"><a name="navLogined" id="navUserName"></a></li>
+                <li class="nav-item"><a href="logout" name="navLogined" id="logout">log out</a></li>
             </ul>
         </div>
     </div>
@@ -54,18 +56,20 @@
             <form role="form" class="form-horizontal ">
                 <p class="text-center text-uppercase font-15 str">Finally, write who are you looking for</p>
                 <p class="text-center">You can change it later in your profile</p>
+                <div id="needs">
+                <input type="text" name="need" class="form-control mt-4" placeholder="For example, programmer">
+                <input type="text" name="need" class="form-control mt-4" placeholder="For example, programmer">
+                <input type="text" name="need" class="form-control mt-4" placeholder="For example, programmer">
+                <input type="text" name="need" class="form-control mt-4" placeholder="For example, programmer">
+                <input type="text" name="need" class="form-control mt-4" placeholder="For example, programmer">
+                <input type="text" name="need" class="form-control mt-4" placeholder="For example, programmer">
+                </div>
 
-
-                <input type="text" id="First" class="form-control mt-4" placeholder="For example, programmer">
-
-                <input type="text" id="Second" class="form-control mt-4" placeholder="For example, designer">
-
-                <input type="text" id="Third" class="form-control mt-4" placeholder="(optional)">
             </form>
 
             <i class="fa fa-long-arrow-left icon"></i>
             <a href="Add_a_project2.html" class="add-category">Previous</a>
-            <a class="btn NextButton float-right" href="project.html" role="button">Add</a>
+            <a class="btn NextButton float-right" role="button" id="submit">Save</a>
             <!--<button type="button" class="btn NextButton float-right">Next step</button>-->
         </div>
     </div>
@@ -86,6 +90,47 @@
 <!-- Bootstrap core JavaScript -->
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+  if(localStorage.getItem('user') != null){
+    $("[name='navUnlogined']").hide();
+    $("[name='navLogined']").show();
+    $('#navUserName').html('<a>'+JSON.parse(localStorage.getItem('user')).fullname+'</a>');
+  } else{
+    window.location.href='/project.html';
+  }
+  $('#submit').on('click', function () {
+    let need = Array();
+    $('[name=\'need\']').each(function (index, value) {
+      if (value.value!='') {
+        need.push(value.value);
+      }
+    });
+    localStorage.setItem('project_need', JSON.stringify(need));
+    $.ajax({
+      type: 'POST',
+      url: '/addProject',
+      data:
+        {
+          project_author: JSON.parse(localStorage.getItem('user')).id,
+          project_title: localStorage.getItem('project_title'),
+          project_status: localStorage.getItem('project_type'),
+          project_info: localStorage.getItem('project_info'),
+          project_need: JSON.parse(localStorage.getItem('project_need')),
+        },
+      success: function(data) {
+        if(data == 'ok'){
+          localStorage.removeItem('project_title');
+          localStorage.removeItem('project_type');
+          localStorage.removeItem('project_info');
+          localStorage.removeItem('project_need');
+            window.location.href='/project.html';
+        } else{
+            alert("Error");
+        }
+      },
+    });
 
+  })
+</script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 /** @private variable to store offset for every user. */
 let Offset = 0;
+let type = 0;
 const enumTag = {
   '0': '',
   '1': 'IT',
@@ -16,21 +17,31 @@ jQuery(document).ready(function($) {
   $(window).scroll(function() {
     if ($(window).height() + $(window).scrollTop() + 1
         >= $(document).height()) {
-      const type = $('#projectType').val();
-      $.ajax({
-        type: 'POST',
-        url: '/package.json',
-        data: {offset: Offset, type: type},
-        success: function(jsonPackage) {
-          stopLoading();
-          setToPage(jsonPackage);
-        },
-      });
-
-      startLoading();
+      loadProjects();
     }
   });
-  const type = $('#projectType').val();
+
+  function loadProjects() {
+    type = $('#projectType').val();
+    $.ajax({
+      type: 'POST',
+      url: '/package.json',
+      data: {offset: Offset, type: type},
+      success: function(jsonPackage) {
+        stopLoading();
+        setToPage(jsonPackage);
+      },
+    });
+    startLoading();
+  }
+
+  $('#projectType').on('change', function() {
+    type = this.value;
+    $('.project').html('');
+    Offset = 0;
+    loadProjects();
+  });
+
   $.ajax({
     type: 'POST',
     url: '/package.json',

@@ -29,7 +29,7 @@
 <nav class="navbar navbar-expand-sm navbar-light fixed-top default-header navNav">
     <div class="container-fluid">
 
-        <a href="Add_a_project.html" class="add-a-project">Add a project</a>
+        <a href="Add_a_project.html" class="add-a-project" name="navLogined">Add a project</a>
 
         <!--Brand-->
         <a href="#" class="navbar-brand">
@@ -38,10 +38,12 @@
         <!--End of Brand-->
 
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class=" navbar-nav ml-auto">
+            <ul class=" navbar-nav ml-auto" id="navbarbuttons">
                 <li class="nav-item"><a href="project.html">projects</a></li>
-                <li class="nav-item"><a href="sign_in.html">sign in</a></li>
-                <li class="nav-item"><a href="log_in.html">log in</a></li>
+                <li class="nav-item"><a href="sign_in.html" name="navUnlogined">sign in</a></li>
+                <li class="nav-item"><a href="log_in.html" name="navUnlogined">log in</a></li>
+                <li class="nav-item"><a name="navLogined" id="navUserName"></a></li>
+                <li class="nav-item"><a href="logout" name="navLogined" id="logout">log out</a></li>
             </ul>
         </div>
     </div>
@@ -61,8 +63,9 @@
                     <option value="2">Art</option>
                     <option value="3">Social</option>
                 </select>
+                <input type="text" id="title" class="form-control mt-4" placeholder="Title">
             </form>
-            <a class="btn NextButton float-right" href="Add_a_project2.html" role="button">Next step</a>
+            <a class="btn NextButton float-right" role="button" id="submit">Next step</a>
             <!--<button type="button" class="btn NextButton float-right">Next step</button>-->
         </div>
     </div>
@@ -84,5 +87,25 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 
+<script>
+  if(localStorage.getItem('user') != null){
+    $("[name='navUnlogined']").hide();
+    $("[name='navLogined']").show();
+    $('#navUserName').html('<a>'+JSON.parse(localStorage.getItem('user')).fullname+'</a>');
+  } else{
+      window.location.href='/project.html';
+    }
+  $('#submit').on('click', function () {
+    localStorage.setItem('project_type', $('#InlineFormCustomSelectPref').val());
+    localStorage.setItem('project_title', $('#title').val());
+    window.location.href='/Add_a_project2.html';
+  })
+  if (localStorage.getItem('project_type')) {
+    $("#InlineFormCustomSelectPref option[value="+localStorage.getItem('project_type')+"]").attr("selected", "selected");
+  }
+  if (localStorage.getItem('project_title')) {
+    $('#title').val(localStorage.getItem('project_title'));
+  }
+</script>
 </body>
 </html>

@@ -50,6 +50,16 @@ jQuery(document).ready(function($) {
     $('#project_date').attr('style', 'width:'+(100/180)*datediff+'%');
     $('#project_info')
         .append(parsedData.project_info);
+    if (typeof parsedData.project_need == 'undefined' ) {
+      $('#project_need').append('<li class="list-group-item"></li>');
+    } else {
+      if (parsedData.project_need.length == 0) {
+        $('#project_need').append('<li class="list-group-item"></li>');
+      }
+      for (i = 0; i < parsedData.project_need.length; i++) {
+        $('#project_need').append('<li class="list-group-item">' + parsedData.project_need[i] + '</li>');
+      }
+    }
     $('#project_users').text('Count of users: ' + parsedData.project_users.length);
   }
 

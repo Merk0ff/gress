@@ -166,4 +166,21 @@ module.exports=function(App) {
       res.end('');
     }
   });
+  App.post('/addProject', async function(req, res) {
+    const project = {
+      project_author: new ObjectId(req.body.project_author),
+      project_title: req.body.project_title,
+      project_status: Number.parseInt(req.body.project_status),
+      project_info: req.body.project_info,
+      project_need: req.body.project_need?req.body.project_need:[],
+      project_users: [],
+      project_media:[],
+      project_date: new Date(),
+    };
+    const result = await Project.addProject(project);
+    if (result!=null) {
+      res.end('ok');
+    }
+    res.end('error');
+  });
 };
