@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
     const datediff = Math.ceil(Math.abs(date1.getTime() - date2.getTime()) / (1000 * 3600 * 24));
     $('#project_date').text(180 - datediff);
     $('#project_date').attr('aria-valuenow', (100/180)*datediff);
-    $('#project_date').attr('style', 'width:'+(100/180)*datediff+'%');
+    $('#project_date').attr('style', 'width:'+(100/180)*datediff+'%;color:darkblue');
     $('#project_info')
         .append(parsedData.project_info);
     if (typeof parsedData.project_need == 'undefined' ) {

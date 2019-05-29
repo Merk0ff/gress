@@ -33,7 +33,6 @@ $(document).ready(function() {
         phone: phoneNum, education: education,
         links: links},
       success: function(data) {
-        window.alert('Im here!'); // need to rewrite
         if (data != '') {
           // just example
           localStorage.setItem('user', JSON.stringify(data));
