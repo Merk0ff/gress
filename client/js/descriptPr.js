@@ -33,6 +33,7 @@ jQuery(document).ready(function($) {
    * @param {Object} parsedData, package that had been received.
    */
   function setToPage(parsedData) {
+    $('#project_title').text(parsedData.project_title);
     $('#project_author').text('Сreator: '+parsedData.project_author.user_fullname);
     // Check the path (!)
     $('#project_img').attr('src', (
@@ -49,6 +50,7 @@ jQuery(document).ready(function($) {
     $('#project_date').attr('style', 'width:'+(100/180)*datediff+'%');
     $('#project_info')
         .append(parsedData.project_info);
+    $('#project_users').text('Count of users: ' + parsedData.project_users.length);
   }
 
 

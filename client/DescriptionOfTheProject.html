@@ -27,7 +27,7 @@
 <nav class="navbar navbar-expand-sm navbar-light fixed-top default-header navNav">
     <div class="container-fluid">
 
-        <a href="Add_a_project.html" class="add-a-project">Add a project</a>
+        <a href="Add_a_project.html" class="add-a-project" name=" navLogined ">Add a project</a>
 
         <!--Brand-->
         <a href="#" class="navbar-brand">
@@ -35,17 +35,13 @@
         </a>
         <!--End of Brand-->
 
-        <!-- Toggler/collapsibe Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- End of toggler/collapsibe Button -->
-
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class=" navbar-nav ml-auto">
-                <li class="nav-item"><a href="project.html">projects</a></li>
-                <li class="nav-item"><a href="sign_in.html">sign in</a></li>
-                <li class="nav-item"><a href="log_in.html">log in</a></li>
+            <ul class=" navbar-nav ml-auto" id="navbarbuttons">
+                <li class="nav-item"><a href="">projects</a></li>
+                <li class="nav-item"><a href="sign_in.html" name="navUnlogined">sign in</a></li>
+                <li class="nav-item"><a href="log_in.html" name="navUnlogined">log in</a></li>
+                <li class="nav-item"><a name="navLogined" id="navUserName"></a></li>
+                <li class="nav-item"><a href="logout" name="navLogined" id="logout">log out</a></li>
             </ul>
         </div>
     </div>
@@ -58,7 +54,7 @@
             <div class="card border-none">
                 <div class="card-body">
                     <div class="headerNew clearfix mb-2">
-                        <h4 class="card-title d-inline line-unset" id="project_title">GALAXIAN GAME</h4>
+                        <h4 class="card-title d-inline line-unset" id="project_title"></h4>
                         <button type="button" class="btn btn-primary float-right mr-7">Back this project</button>
                     </div>
 
@@ -110,5 +106,16 @@
 <!-- Footer -->
 <script src="js/jquery.min.js"></script>
 <script src="js/descriptPr.js"></script>
+<script src="js/logout.js"></script>
+<script>
+  if(localStorage.getItem('user') != null){
+    $("[name='navUnlogined']").hide();
+    $("[name='navLogined']").show();
+    $('#navUserName').html('<a>'+JSON.parse(localStorage.getItem('user')).fullname+'</a>');
+  } else{
+    $("[name='navUnlogined']").show();
+    $("[name='navLogined']").hide();
+  }
+</script>
 </body>
 </html>
