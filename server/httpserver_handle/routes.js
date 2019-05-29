@@ -32,7 +32,11 @@ const sendFile = require('./sendFile');
 /** @const @private Endless scroll unit. */
 const EndlessScroll = require('./endlessScroll');
 
+const favicon = require('serve-favicon');
+
 const SessSys=require('./SessionSystem');
+const Project = require('../app/db/db_project');
+const ObjectId = require('../app/db/db_service').ObjectId;
 
 
 module.exports=function(App) {
@@ -63,6 +67,12 @@ module.exports=function(App) {
     sendFile(res, './client/project.html');
     console.log('user came');
     // }
+  });
+
+
+  App.post('/project.json', async function(req, res) {
+    pckg = await Project.getProjectById(new ObjectId(req.body.id));
+    res.end(JSON.stringify(pckg));
   });
 
   App.param(['file'], function(req, res, next, value) {
@@ -104,7 +114,7 @@ module.exports=function(App) {
    * go to https://expressjs.com/en/starter/static-files.html to read more
    */
   App.use(Exp.static('./client'));
-
+  App.use('/favicon.ico', Exp.static('./client/favicon.ico'));
 
   /**
    * this request is needed for infinite scroll
@@ -112,7 +122,7 @@ module.exports=function(App) {
    */
   App.post('/package.json', function(req, res) {
     console.log('post captured with offset = ', req.body.offset);
-    EndlessScroll.sendJSON(res, parseInt(req.body.offset));
+    EndlessScroll.sendJSON(res, parseInt(req.body.offset), parseInt(req.body.type));
     console.log('json sent');
   });
 

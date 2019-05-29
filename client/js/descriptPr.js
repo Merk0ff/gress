@@ -1,61 +1,19 @@
-/** @private variable to store offset for every user. */
-let Offset = 0;
-const enumTag = {
-  '0': '',
-  '1': 'IT',
-  '2': 'Art',
-  '3': 'Social',
-};
-/**
- * Function that send post request to server,
- * to get JSON with new projects.
- *
- * @param {Object} jQuery.
- */
+function $_GET(key) {
+  let p = window.location.search;
+  p = p.match(new RegExp(key + '=([^&=]+)'));
+  return p ? p[1] : false;
+}
 jQuery(document).ready(function($) {
-  $(window).scroll(function() {
-    if ($(window).height() + $(window).scrollTop() + 1
-        >= $(document).height()) {
-      const type = $('#projectType').val();
-      $.ajax({
-        type: 'POST',
-        url: '/package.json',
-        data: {offset: Offset, type: type},
-        success: function(jsonPackage) {
-          stopLoading();
-          setToPage(jsonPackage);
-        },
-      });
-
-      startLoading();
-    }
-  });
-  const type = $('#projectType').val();
   $.ajax({
     type: 'POST',
-    url: '/package.json',
-    data: {offset: Offset, type: type},
+    url: '/project.json',
+    data: {id: $_GET('id')},
     success: function(jsonPackage) {
       stopLoading();
       setToPage(jsonPackage);
     },
   });
-
   startLoading();
-
-  const layout =
-    `<div class="col-lg-6 col-md-6 col-sm-6">
-          <div class="card projectImage">
-              <div class="card-body">
-                  <h4 class="card-title text-uppercase projectTitle">
-                   </h4>
-                  <p class="card-text projectText"></p>
-                  <a class="link projectLink" href="DescriptionOfTheProject.html">Read More</a>
-                  <span class="text-uppercase float-right projectTag"></span>
-              </div>
-          </div>
-      </div>`;
-
   /**
    * Function that insert received JSON to page
    * @param {Object} jsonPackage, package that had been received.
@@ -104,4 +62,3 @@ jQuery(document).ready(function($) {
     $('#load').fadeOut();
   }
 });
-

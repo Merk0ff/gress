@@ -17,7 +17,7 @@
 
 /**
  * @fileoverview session system
- * @author  Dmitry Varlamov
+ * @author  Dmitry Varlamov, Dmitriy Vihlyaev
  */
 
 const UserDB=require('../app/db/db_user');
@@ -31,6 +31,7 @@ exports.checkUser = async function(req) {
       id: result[0]._id.toString(),
       email: result[0].user_login,
       fullname: result[0].user_fullname,
+      type: result[0].user_type,
     };
   } else {
     return false;
@@ -56,6 +57,7 @@ exports.addUser= async function(req) {
       id: result.insertedId.toString(),
       email: user.user_login,
       fullname: user.user_fullname,
+      type: user.user_type,
     };
   } else {
     console.log('did not register user');

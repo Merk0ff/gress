@@ -17,7 +17,7 @@
 
 /**
  * @fileoverview Endless scroll handle.
- * @author Philip Dukshtau, Dmitry Varlamov
+ * @author Philip Dukshtau, Dmitry Varlamov, Dmitriy Vihlyaev
  */
 
 
@@ -27,21 +27,14 @@
  * @param {Object} res callback variable
  * @param {int} offset offset
  */
-exports.sendJSON = function(res, offset) {
-  const pckg = {
-    count: 5,
-    projects: [],
-  };
 
-  for (let i = offset; i < offset + 5; i++) {
-    pckg.projects.push({
-      title: 'title' + String(i),
-      description: 'description' + String(i),
-      url: 'url' + String(i),
-      tag: 'tag' + String(i),
-      img: 'picture' + String(i),
-    });
-  }
+const Project = require('../app/db/db_project');
+
+exports.sendJSON =async function(res, offset, type) {
+  const pckg = {
+    projects: await Project.getProject((type!=0)?{project_status: type}:{}, offset, 5),
+  };
+  pckg.count = pckg.projects.length;
 
   res.end(JSON.stringify(pckg));
 };
