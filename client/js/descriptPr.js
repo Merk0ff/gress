@@ -10,41 +10,45 @@ jQuery(document).ready(function($) {
     data: {id: $_GET('id')},
     success: function(jsonPackage) {
       stopLoading();
-      setToPage(jsonPackage);
+      getAuthor(jsonPackage);
     },
   });
   startLoading();
+
+  function getAuthor(jsonPackage) {
+    const parsedData = JSON.parse(jsonPackage);
+    $.ajax({
+      type: 'POST',
+      url: '/user.json',
+      data: {id: parsedData.project_author},
+      success: function(user) {
+        stopLoading();
+        parsedData.project_author = JSON.parse(user);
+        setToPage(parsedData);
+      },
+    });
+  }
   /**
    * Function that insert received JSON to page
-   * @param {Object} jsonPackage, package that had been received.
+   * @param {Object} parsedData, package that had been received.
    */
-  function setToPage(jsonPackage) {
-    const parsedData = JSON.parse(jsonPackage);
-
-    for (let i = 0; i < parsedData.count; i++) {
-      $('.project').append(layout);
-
-      const img = $('<img>');
-      // Check the path (!)
-      img.attr('src', (
-        parsedData.projects[i].project_media.length>0)?
-        parsedData.projects[i].project_media[0].media_url:
+  function setToPage(parsedData) {
+    $('#project_author').text('Сreator: '+parsedData.project_author.user_fullname);
+    // Check the path (!)
+    $('#project_img').attr('src', (
+        parsedData.project_media.length>0)?
+        parsedData.project_media[0].media_url:
         'files/project/1559083366870_be10fe2ea.png'
-      );
-      img.attr('style', 'width: auto; height: 100%;');
-      // Check the :eq("+i+")"
-      $('.projectImage:eq(' + Offset + ')').prepend(img);
-
-      $('.projectTitle:eq(' + Offset + ')')
-          .append(parsedData.projects[i].project_title);
-      $('.projectText:eq(' + Offset + ')')
-          .append( parsedData.projects[i].project_info.substr(0, 100)+'...');
-      $('.projectLink:eq(' + Offset + ')')
-          .attr('href', 'DescriptionOfTheProject.html?id='+ parsedData.projects[i]._id);
-      $('.projectTag:eq(' + Offset + ')')
-          .append(enumTag[parsedData.projects[i].project_status]);
-      Offset++;
-    }
+    );
+    // Check the :eq("+i+")"
+    const date1 = new Date();
+    const date2 = new Date(parsedData.project_date);
+    const datediff = Math.ceil(Math.abs(date1.getTime() - date2.getTime()) / (1000 * 3600 * 24));
+    $('#project_date').text(180 - datediff);
+    $('#project_date').attr('aria-valuenow', (100/180)*datediff);
+    $('#project_date').attr('style', 'width:'+(100/180)*datediff+'%');
+    $('#project_info')
+        .append(parsedData.project_info);
   }
 
 

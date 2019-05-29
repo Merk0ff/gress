@@ -36,6 +36,7 @@ const favicon = require('serve-favicon');
 
 const SessSys=require('./SessionSystem');
 const Project = require('../app/db/db_project');
+const User = require('../app/db/db_user');
 const ObjectId = require('../app/db/db_service').ObjectId;
 
 
@@ -69,10 +70,13 @@ module.exports=function(App) {
     // }
   });
 
-
+  App.post('/user.json', async function(req, res) {
+    pckg = await User.getUserById(new ObjectId(req.body.id));
+    res.end(JSON.stringify(pckg[0]));
+  });
   App.post('/project.json', async function(req, res) {
     pckg = await Project.getProjectById(new ObjectId(req.body.id));
-    res.end(JSON.stringify(pckg));
+    res.end(JSON.stringify(pckg[0]));
   });
 
   App.param(['file'], function(req, res, next, value) {

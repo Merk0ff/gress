@@ -80,7 +80,7 @@ jQuery(document).ready(function($) {
       $('.projectTitle:eq(' + Offset + ')')
           .append(parsedData.projects[i].project_title);
       $('.projectText:eq(' + Offset + ')')
-          .append( parsedData.projects[i].project_info.substr(0, 100)+'...');
+          .append( parsedData.projects[i].project_info.substr(0, 100) + (parsedData.projects[i].project_info.length>100?'...':''));
       $('.projectLink:eq(' + Offset + ')')
           .attr('href', 'DescriptionOfTheProject.html?id='+ parsedData.projects[i]._id);
       $('.projectTag:eq(' + Offset + ')')
